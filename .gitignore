@@ -31,3 +31,12 @@ Carthage
 # `pod install` in .travis.yml
 #
 Pods/
+
+### Projects ###
+*.xcodeproj
+*.xcworkspace
+
+### Tuist derived files ###
+graph.dot
+Derived/
+
