@@ -10,15 +10,18 @@ let reverseOrganizationName = "com.sonomos"
 extension Project {
     /// Helper function to create the Project for this ExampleApp
     public static func app(name: String,
-                           packages: [Package],
                            platform: Platform,
+                           packages: [Package],
+                           targetDependancies: [TargetDependency],
                            additionalTargets: [String]) -> Project {
         
         let organizationName = "Sonomos.com"
+        var dependencies = additionalTargets.map { TargetDependency.target(name: $0) }
+        dependencies.append(contentsOf: targetDependancies)
         
         var targets = makeAppTargets(name: name,
                                      platform: platform,
-                                     dependencies: additionalTargets.map { TargetDependency.target(name: $0) })
+                                     dependencies: dependencies)
         targets += additionalTargets.flatMap({ makeFrameworkTargets(name: $0, platform: platform) })
         return Project(name: name,
                        organizationName: organizationName,
