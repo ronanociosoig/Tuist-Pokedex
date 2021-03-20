@@ -9,7 +9,11 @@ let reverseOrganizationName = "com.sonomos"
 
 extension Project {
     /// Helper function to create the Project for this ExampleApp
-    public static func app(name: String, platform: Platform, additionalTargets: [String]) -> Project {
+    public static func app(name: String,
+                           packages: [Package],
+                           platform: Platform,
+                           additionalTargets: [String]) -> Project {
+        
         let organizationName = "Sonomos.com"
         
         var targets = makeAppTargets(name: name,
