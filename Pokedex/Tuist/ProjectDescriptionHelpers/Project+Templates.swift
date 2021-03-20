@@ -1,5 +1,7 @@
 import ProjectDescription
 
+let reverseOrganizationName = "com.sonomos"
+
 /// Project helpers are functions that simplify the way you define your project.
 /// Share code to create targets, settings, dependencies,
 /// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
@@ -8,12 +10,15 @@ import ProjectDescription
 extension Project {
     /// Helper function to create the Project for this ExampleApp
     public static func app(name: String, platform: Platform, additionalTargets: [String]) -> Project {
+        let organizationName = "Sonomos.com"
+        
         var targets = makeAppTargets(name: name,
                                      platform: platform,
                                      dependencies: additionalTargets.map { TargetDependency.target(name: $0) })
         targets += additionalTargets.flatMap({ makeFrameworkTargets(name: $0, platform: platform) })
         return Project(name: name,
-                       organizationName: "tuist.io",
+                       organizationName: organizationName,
+                       packages: packages,
                        targets: targets)
     }
 
@@ -24,7 +29,7 @@ extension Project {
         let sources = Target(name: name,
                 platform: platform,
                 product: .framework,
-                bundleId: "io.tuist.\(name)",
+                bundleId: "\(reverseOrganizationName).\(name)",
                 infoPlist: .default,
                 sources: ["Targets/\(name)/Sources/**"],
                 resources: [],
@@ -32,7 +37,7 @@ extension Project {
         let tests = Target(name: "\(name)Tests",
                 platform: platform,
                 product: .unitTests,
-                bundleId: "io.tuist.\(name)Tests",
+                bundleId: "\(reverseOrganizationName).\(name)Tests",
                 infoPlist: .default,
                 sources: ["Targets/\(name)/Tests/**"],
                 resources: [],
@@ -54,7 +59,7 @@ extension Project {
             name: name,
             platform: platform,
             product: .app,
-            bundleId: "io.tuist.\(name)",
+            bundleId: "\(reverseOrganizationName).\(name)",
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**"],
@@ -65,7 +70,7 @@ extension Project {
             name: "\(name)Tests",
             platform: platform,
             product: .unitTests,
-            bundleId: "io.tuist.\(name)Tests",
+            bundleId: "\(reverseOrganizationName).\(name)Tests",
             infoPlist: .default,
             sources: ["Targets/\(name)/Tests/**"],
             dependencies: [
