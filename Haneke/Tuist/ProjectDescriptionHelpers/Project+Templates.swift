@@ -28,6 +28,7 @@ extension Project {
                 infoPlist: .default,
                 sources: ["Targets/\(name)/Sources/**"],
                 resources: [],
+                headers: Headers(public: ["Targets/\(name)/Sources/*.h"]),
                 dependencies: [])
         let tests = Target(name: "\(name)Tests",
                 platform: platform,
