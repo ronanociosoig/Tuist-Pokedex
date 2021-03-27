@@ -20,6 +20,6 @@ import ProjectDescriptionHelpers
 // MARK: - Project
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
-let project = Project.app(name: "Haneke",
+let project = Project.app(name: "HanekeApp",
                           platform: .iOS,
-                          additionalTargets: ["HanekeKit", "HanekeUI"])
+                          additionalTargets: ["Haneke"])
