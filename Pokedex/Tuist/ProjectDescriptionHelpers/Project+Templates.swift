@@ -82,9 +82,8 @@ extension Project {
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**",
-                        "Targets/\(name)/Sources/Scenes/**/*.storyboard",
-                        "Targets/\(name)/Sources/Views/**/*.xib",
-                        "Targets/\(name)/Sources/Scenes/**/Cells/*.xib"],
+                        "Targets/\(name)/Sources/**/*.storyboard",
+                        "Targets/\(name)/Sources/**/*.xib"],
             dependencies: dependencies
         )
 
