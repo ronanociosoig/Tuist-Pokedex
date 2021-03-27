@@ -51,6 +51,7 @@ extension Project {
                 infoPlist: .default,
                 sources: ["\(relativeFrameworkPath)/Sources/**"],
                 resources: [],
+                headers: Headers(public: ["\(relativeFrameworkPath)/Sources/**/*.h"]),
                 dependencies: [])
         let tests = Target(name: "\(localFramework.name)Tests",
                 platform: platform,
