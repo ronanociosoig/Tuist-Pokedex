@@ -12,7 +12,7 @@ import XCTest
 
 @testable import Pokedex
 
-class Wefox_PokedexTests: XCTestCase {
+class PokedexTests: XCTestCase {
     func testEndpointReturnsData() {
         
         let expectation = self.expectation(description: "No results in response data")
