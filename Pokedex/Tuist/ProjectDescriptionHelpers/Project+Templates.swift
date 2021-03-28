@@ -94,6 +94,8 @@ extension Project {
             bundleId: "\(reverseOrganizationName).\(name)Tests",
             infoPlist: .default,
             sources: ["Targets/\(name)/Tests/**"],
+            resources: ["Targets/\(name)/Tests/**/*.json",
+                        "Targets/\(name)/Tests/**/*.png"],
             dependencies: [
                 .target(name: "\(name)")
         ])
