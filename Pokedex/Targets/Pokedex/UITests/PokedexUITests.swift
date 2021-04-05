@@ -1,5 +1,5 @@
 //
-//  Wefox_PokedexUITests.swift
+//  PokedexUITests.swift
 //  PokedexUITests
 //
 //  Created by Ronan on 09/05/2019.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class Wefox_PokedexUITests: XCTestCase {
+class PokedexUITests: XCTestCase {
 
     let app = XCUIApplication()
     
@@ -22,10 +22,9 @@ class Wefox_PokedexUITests: XCTestCase {
     }
     
     func testSearchPokemon() {
-        let ballButton = app.buttons["Ball"]
-        ballButton.tap()
+        app.buttons["Ball"].tap()
         app.alerts["Do you want to leave it or catch it?"].buttons["Catch it!"].tap()
-        ballButton.tap()
+        app.buttons["Catch"].tap()
         app.buttons["Backpack"].tap()
         app.collectionViews.cells.otherElements.containing(.staticText, identifier: "Charmeleon").element.tap()
         app.navigationBars["Charmeleon"].buttons["Backpack"].tap()

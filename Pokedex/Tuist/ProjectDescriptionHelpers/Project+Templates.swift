@@ -109,7 +109,7 @@ extension Project {
             bundleId: "\(reverseOrganizationName).\(name)UITests",
             infoPlist: .default,
             sources: ["Targets/\(name)/UITests/**"],
-            resources: ["Targets/\(name)/Tests/**/*.json"],
+            resources: [],
             dependencies: [
                 .target(name: "\(name)")
         ])
