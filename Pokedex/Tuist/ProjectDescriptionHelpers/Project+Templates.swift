@@ -83,7 +83,9 @@ extension Project {
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**",
                         "Targets/\(name)/Sources/**/*.storyboard",
-                        "Targets/\(name)/Sources/**/*.xib"],
+                        "Targets/\(name)/Sources/**/*.xib",
+                        "Targets/\(name)/Sources/**/*.json"
+            ],
             dependencies: dependencies
         )
 
@@ -99,6 +101,19 @@ extension Project {
             dependencies: [
                 .target(name: "\(name)")
         ])
-        return [mainTarget, testTarget]
+        
+        let uiTestTarget = Target(
+            name: "\(name)UITests",
+            platform: platform,
+            product: .uiTests,
+            bundleId: "\(reverseOrganizationName).\(name)UITests",
+            infoPlist: .default,
+            sources: ["Targets/\(name)/UITests/**"],
+            resources: ["Targets/\(name)/Tests/**/*.json"],
+            dependencies: [
+                .target(name: "\(name)")
+        ])
+        
+        return [mainTarget, testTarget, uiTestTarget]
     }
 }
