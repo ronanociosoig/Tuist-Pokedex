@@ -33,10 +33,13 @@ extension Project {
                                      platform: platform,
                                      dependencies: dependencies)
         targets += additionalTargets.flatMap({ makeFrameworkTargets(localFramework: $0, platform: platform) })
+        
+        let schemes = makeSchemes(targetName: name)
+        
         return Project(name: name,
                        organizationName: organizationName,
                        packages: packages,
-                       targets: targets)
+                       targets: targets, schemes: schemes)
     }
 
     // MARK: - Private
@@ -115,5 +118,42 @@ extension Project {
         ])
         
         return [mainTarget, testTarget, uiTestTarget]
+    }
+
+    public static func makeSchemes(targetName: String) -> [Scheme] {
+        let mainTargetReference = TargetReference(stringLiteral: targetName)
+        let debugConfiguration = "Debug"
+        let coverage = true
+        let codeCoverageTargets: [TargetReference] = [mainTargetReference]
+        let buildAction = BuildAction(targets: [mainTargetReference])
+        let executable = mainTargetReference
+        let networkTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "Network", isEnabled: true)])
+        let uiTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "UITesting", isEnabled: true)])
+        
+        let testAction = TestAction(targets: [TestableTarget(stringLiteral: "\(targetName)UITests")],
+                                    configurationName: debugConfiguration,
+                                    coverage: coverage,
+                                    codeCoverageTargets: codeCoverageTargets)
+
+        let networkTestingScheme = Scheme(
+            name: "\(targetName) Network Testing",
+            shared: false,
+            buildAction: buildAction,
+            runAction: RunAction(configurationName: debugConfiguration,
+                                 executable: executable,
+                                 arguments: networkTestingLaunchArguments)
+        )
+        
+        let uiTestingScheme = Scheme(
+            name: "\(targetName) UITesting",
+            shared: false,
+            buildAction: buildAction,
+            testAction: testAction,
+            runAction: RunAction(configurationName: debugConfiguration,
+                                 executable: executable,
+                                 arguments: uiTestingLaunchArguments)
+        )
+        
+        return [networkTestingScheme, uiTestingScheme]
     }
 }
