@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PokemonCollectionViewCell" customModule="Wefox_Pokedex" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="130" height="150"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="130" height="150"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PokemonPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="KwG-5f-l9b">
+                        <rect key="frame" x="0.0" y="0.0" width="130" height="130"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="KwG-5f-l9b" secondAttribute="height" multiplier="1:1" id="2Ax-nU-snI"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokemon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTN-gk-ilq">
+                        <rect key="frame" x="0.0" y="110" width="130" height="35"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="cTN-gk-ilq" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="2bx-Vo-mxW"/>
+                <constraint firstAttribute="trailing" secondItem="KwG-5f-l9b" secondAttribute="trailing" id="3p3-zV-gfG"/>
+                <constraint firstItem="cTN-gk-ilq" firstAttribute="top" secondItem="KwG-5f-l9b" secondAttribute="bottom" constant="-20" id="6lJ-mt-11k"/>
+                <constraint firstAttribute="trailing" secondItem="cTN-gk-ilq" secondAttribute="trailing" id="ASp-Ok-kvD"/>
+                <constraint firstAttribute="bottom" secondItem="cTN-gk-ilq" secondAttribute="bottom" constant="5" id="XH5-NE-z7d"/>
+                <constraint firstItem="KwG-5f-l9b" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="m5L-O3-fv6"/>
+                <constraint firstItem="KwG-5f-l9b" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="rpo-dl-7DD"/>
+                <constraint firstItem="cTN-gk-ilq" firstAttribute="top" secondItem="KwG-5f-l9b" secondAttribute="bottom" constant="-20" id="vbM-9c-OwH"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="130" height="150"/>
+            <connections>
+                <outlet property="imageView" destination="KwG-5f-l9b" id="w35-n1-CZK"/>
+                <outlet property="name" destination="cTN-gk-ilq" id="oIe-hq-wNP"/>
+            </connections>
+            <point key="canvasLocation" x="197.10144927536234" y="125.22321428571428"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="PokemonPlaceholder" width="96" height="96"/>
+    </resources>
+</document>

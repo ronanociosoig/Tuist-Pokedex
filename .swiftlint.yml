@@ -1,0 +1,16 @@
+disabled_rules:
+  - line_length
+  - type_name
+  - vertical_parameter_alignment
+  - trailing_whitespace
+
+opt_in_rules:
+  - empty_count
+  - force_unwrapping
+
+excluded: 
+  - ./Pods
+
+function_body_length:
+  warning: 50
+
