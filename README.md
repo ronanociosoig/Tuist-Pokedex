@@ -65,7 +65,7 @@ Moya is used in the networking layer to help in 3 ways: <br>
 ## Automated Testing
 The project has unit, integration and UI tests.
 
-![Project build schemes](PokedextuistSchemes.png)
+![Project build schemes](PokedexTuistSchemes.png)
 
 The project has 2 custom schemes that separate out the different types of testing. 
 In the main scheme, the standard unit and UI XCTests are enabled. 
