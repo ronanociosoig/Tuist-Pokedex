@@ -49,7 +49,7 @@ An AppData class is used to maintain global state across screens, with the data 
 
 ## Tuist
 
-The repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.31. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
+This repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.31. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
 
 ## Implementation 
 
