@@ -9,15 +9,19 @@
   • <a href="#automated-testing">Automated Testing</a>
 </p>
 
+
 # Pokedex
 
-This simmple iOS app is a Swift code example to demonstrate an approach used to fetch data from an [API](https://pokeapi.co), parse the response, display some of the data, store it locally, and retrieve it. The aim was to keep this as simple as possible but follow best practices in terms of SOLID principles and design patterns. 
+[![Tuist badge](https://img.shields.io/badge/Powered%20by-Tuist-blue)](https://tuist.io) 
+
+
+This simple iOS app is a Swift code example to demonstrate an approach used to fetch data from an [API](https://pokeapi.co), parse the response, display some of the data, store it locally, and retrieve it. The aim was to keep this as simple as possible but follow best practices and standard design patterns. 
 
 It consists of 4 scenes: <br>
-Home Scene <br>
-Catch the Pokemon Scene <br>
-Backpack Scene<br>
-Details Scene<br>
+	- Home Scene <br>
+	- Catch the Pokemon Scene <br>
+	- Backpack Scene<br>
+	- Details Scene<br>
 
 The Home scene has 2 buttons, the first opens the Catch scene, the latter opens the backpack scene. 
 
@@ -43,6 +47,10 @@ The data provider class acts as a data access layer, which has extensions define
 
 An AppData class is used to maintain global state across screens, with the data provider controling its access. View controllers have read-only access, and data must be updated via actions. This is a form of uni-directional data flow that helps prevent inconsistencies in the screens and the data presented. 
 
+## Tuist
+
+This repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.31. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
+
 ## Implementation 
 
 The coordinator is in charge of what is displayed on the screen. It contains the code to display the screens, show loading HUD, or an alert message. 
@@ -57,12 +65,12 @@ Moya is used in the networking layer to help in 3 ways: <br>
 ## Automated Testing
 The project has unit, integration and UI tests.
 
-![Project build schemes](PokedexSchemes.png)
+![Project build schemes](PokedexTuistSchemes.png)
 
-The project has 3 schemes that separate out the different types of testing. 
-In the main scheme, the standard XCTests are enabled. 
+The project has 2 custom schemes that separate out the different types of testing. 
+In the main scheme, the standard unit and UI XCTests are enabled. 
 
 The network testing scheme takes advantge of the [Moya](https://github.com/Moya/Moya) plugin to enable network logging. 
 
-The final scheme employs the stubbing feature of [Moya](https://github.com/Moya/Moya) to return mock data. The data returned in the mmocks for the UI tests is controlled by the launch argument passed into the test. In this way Moya can return either a standard HTTP 200 response code, or a custom code such as 401. This could be easily extended with custom endpoint closures for all the error codes that needs to be validated. 
+The UI testing scheme employs the stubbing feature of [Moya](https://github.com/Moya/Moya) to return mock data. The data returned in the mmocks for the UI tests is controlled by the launch argument passed into the test. In this way Moya can return either a standard HTTP 200 response code, or a custom code such as 401. This could be easily extended with custom endpoint closures for all the error codes that needs to be validated. 
 
