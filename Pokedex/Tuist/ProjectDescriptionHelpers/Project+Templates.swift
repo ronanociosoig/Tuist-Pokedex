@@ -89,6 +89,9 @@ extension Project {
                         "Targets/\(name)/Sources/**/*.xib",
                         "Targets/\(name)/Sources/**/*.json"
             ],
+            actions: [
+                TargetAction.post(path: "../scripts/swiftlint.sh", name: "SwiftLint")
+            ],
             dependencies: dependencies
         )
 
