@@ -11,7 +11,7 @@ import Foundation
 import Moya
 import Result
 
-protocol PokemonSearchLoadingService: class {
+protocol PokemonSearchLoadingService: AnyObject {
     var provider: MoyaProvider<PokemonSearchEndpoint> { get }
     
     func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void)
