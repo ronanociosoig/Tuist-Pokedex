@@ -8,11 +8,12 @@
 
 import Foundation
 import os.log
+import NetworkKit
 
 struct Log {
-    static var general = OSLog(subsystem: "com.sonomos.InTune", category: "general")
-    static var network = OSLog(subsystem: "com.sonomos.InTune", category: "network")
-    static var data = OSLog(subsystem: "com.sonomos.InTune", category: "data")
+    static var general = OSLog(subsystem: "com.sonomos.pokedex", category: "general")
+    static var network = OSLog(subsystem: "com.sonomos.pokedex", category: "network")
+    static var data = OSLog(subsystem: "com.sonomos.pokedex", category: "data")
 }
 
 protocol DataProviding {

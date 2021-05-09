@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import NetworkKit
 
 protocol AppControlling {
     func start()
