@@ -11,13 +11,13 @@ import Foundation
 import Moya
 import Result
 
-protocol PokemonSearchLoadingService: class {
+public protocol PokemonSearchLoadingService: AnyObject {
     var provider: MoyaProvider<PokemonSearchEndpoint> { get }
     
     func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void)
 }
 
-class PokemonSearchService: PokemonSearchLoadingService {
+public class PokemonSearchService: PokemonSearchLoadingService {
     // swiftlint:disable force_unwrapping
     let customEndpointClosure = { (target: PokemonSearchEndpoint) -> Endpoint in
         return Endpoint(url: URL(target: target).absoluteString,
@@ -27,7 +27,11 @@ class PokemonSearchService: PokemonSearchLoadingService {
                         httpHeaderFields: target.headers)
     }
     
-    var provider: MoyaProvider<PokemonSearchEndpoint> {
+    public init() {
+        
+    }
+    
+    public var provider: MoyaProvider<PokemonSearchEndpoint> {
         
         if Configuration.authenticationErrorTesting {
             return MoyaProvider<PokemonSearchEndpoint>(endpointClosure: customEndpointClosure, stubClosure: MoyaProvider.immediatelyStub)
@@ -40,7 +44,7 @@ class PokemonSearchService: PokemonSearchLoadingService {
         }
     }
     
-    func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void) {
+    public func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void) {
         provider.request(.search(identifier: identifier)) { result in
             switch result {
             case .success(let response):

@@ -11,7 +11,15 @@ let project = Project.app(name: "Pokedex",
                             .package(url: "https://github.com/antitypical/Result.git", from: "5.0.0"),
                             .package(url: "https://github.com/JonasGessner/JGProgressHUD", .upToNextMajor(from: "2.0.0"))
                           ],
-                          targetDependancies: [.package(product: "Moya"),
-                                               .package(product: "Result"),
-                                               .package(product: "JGProgressHUD")],
-                          additionalTargets: [LocalFramework(name: "Haneke", path: "Haneke")])
+                          targetDependancies: [
+                            .package(product: "JGProgressHUD")],
+                          additionalTargets: [LocalFramework(name: "Haneke",
+                                                             path: "Haneke",
+                                                             frameworkDependancies: []),
+                                              LocalFramework(name: "NetworkKit",
+                                                             path: "Network",
+                                                             frameworkDependancies: [
+                                                                .package(product: "Moya"),
+                                                             .package(product: "Result")
+                                                             ])
+                          ])

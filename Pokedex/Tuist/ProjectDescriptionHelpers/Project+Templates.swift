@@ -10,10 +10,12 @@ let reverseOrganizationName = "com.sonomos"
 public struct LocalFramework {
     let name: String
     let path: String
+    let frameworkDependancies: [TargetDependency]
     
-    public init(name: String, path: String) {
+    public init(name: String, path: String, frameworkDependancies: [TargetDependency]) {
         self.name = name
         self.path = path
+        self.frameworkDependancies = frameworkDependancies
     }
 }
 
@@ -39,7 +41,8 @@ extension Project {
         return Project(name: name,
                        organizationName: organizationName,
                        packages: packages,
-                       targets: targets, schemes: schemes)
+                       targets: targets,
+                       schemes: schemes)
     }
 
     // MARK: - Private
@@ -55,7 +58,7 @@ extension Project {
                 sources: ["\(relativeFrameworkPath)/Sources/**"],
                 resources: [],
                 headers: Headers(public: ["\(relativeFrameworkPath)/Sources/**/*.h"]),
-                dependencies: [])
+                dependencies: localFramework.frameworkDependancies)
         let tests = Target(name: "\(localFramework.name)Tests",
                 platform: platform,
                 product: .unitTests,
@@ -88,6 +91,9 @@ extension Project {
                         "Targets/\(name)/Sources/**/*.storyboard",
                         "Targets/\(name)/Sources/**/*.xib",
                         "Targets/\(name)/Sources/**/*.json"
+            ],
+            actions: [
+                TargetAction.post(path: "../scripts/swiftlint.sh", name: "SwiftLint")
             ],
             dependencies: dependencies
         )

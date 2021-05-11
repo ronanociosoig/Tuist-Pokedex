@@ -1,52 +1,33 @@
 //
 //  DataProvider.swift
-//  Pokedex
+//  Network
 //
-//  Created by Ronan on 09/05/2019.
-//  Copyright © 2019 Sonomos. All rights reserved.
+//  Created by Ronan O Ciosig on 2/5/21.
+//  Copyright © 2021 Sonomos.com. All rights reserved.
 //
 
 import Foundation
-import os.log
 import NetworkKit
+import os.log
 
-struct Log {
-    static var general = OSLog(subsystem: "com.sonomos.pokedex", category: "general")
-    static var network = OSLog(subsystem: "com.sonomos.pokedex", category: "network")
-    static var data = OSLog(subsystem: "com.sonomos.pokedex", category: "data")
-}
-
-protocol DataProviding {
-    init(service: PokemonSearchLoadingService)
+class DataProvider {
+    let networkService: PokemonSearchLoadingService
+    static let maxIdentifier = 1000
     
-    func search(identifier: Int)
-    func catchPokemon()
-    func newSpecies() -> Bool
-    func pokemon(at index: Int) -> LocalPokemon
-}
-
-class DataProvider: DataProviding {
-    let appData = AppData(storage: FileStorage())
     var notifier: Notifier?
-    private let networkService: PokemonSearchLoadingService
+    var pokemon: Pokemon?
     
-    required init(service: PokemonSearchLoadingService) {
+    init(service: PokemonSearchLoadingService) {
         self.networkService = service
     }
     
-    func start() {
-        appData.load()
-        appData.sortByOrder()
-    }
-    
     func search(identifier: Int) {
-        appData.pokemon = nil
-        
-        networkService.search(identifier: identifier) { (data, errorMessage) in
+        networkService.search(identifier: identifier) { data, errorMessage in
             let queue = DispatchQueue.main
             
             if let errorMessage = errorMessage {
                 if errorMessage == Constants.Translations.Error.statusCode404 {
+                    os_log("Error message: %s", log: Log.network, type: .error, errorMessage)
                     self.notifier?.dataReceived(errorMessage: errorMessage, on: queue)
                     return
                 }
@@ -65,8 +46,7 @@ class DataProvider: DataProviding {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                let pokemon = try decoder.decode(Pokemon.self, from: data)
-                self.appData.pokemon = pokemon
+                self.pokemon = try decoder.decode(Pokemon.self, from: data)
                 self.notifier?.dataReceived(errorMessage: nil, on: queue)
                 os_log("Success: %s", log: Log.network, type: .default, "Loaded")
             } catch {
@@ -75,21 +55,5 @@ class DataProvider: DataProviding {
                 self.notifier?.dataReceived(errorMessage: errorMessage, on: queue)
             }
         }
-    }
-    
-    func catchPokemon() {
-        guard let pokemon = appData.pokemon else { return }
-        let localPokemon = PokemonParser.parse(pokemon: pokemon)
-        appData.pokemons.append(localPokemon)
-        appData.sortByOrder()
-        appData.save()
-    }
-    
-    func newSpecies() -> Bool {
-        return appData.newSpecies()
-    }
-    
-    func pokemon(at index: Int) -> LocalPokemon {
-        return appData.pokemons[index]
     }
 }
