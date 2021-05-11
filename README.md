@@ -51,6 +51,10 @@ An AppData class is used to maintain global state across screens, with the data 
 
 This repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.31. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
 
+## Modular Approach
+
+The network code is separated into its own project, and has an example app to validate it. The Haneke image library is also part of the repo as a separate project and linked in the Project.swift manifest. 
+
 ## Implementation 
 
 The coordinator is in charge of what is displayed on the screen. It contains the code to display the screens, show loading HUD, or an alert message. 
