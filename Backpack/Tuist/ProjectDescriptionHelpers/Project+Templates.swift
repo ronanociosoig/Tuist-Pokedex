@@ -86,7 +86,7 @@ extension Project {
             sources: ["Targets/\(name)/Sources/**"],
             resources: [],
             actions: [
-                TargetAction.post(path: "../scripts/swiftlint.sh", name: "SwiftLint")
+                TargetAction.post(path: "../scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
             ],
             dependencies: dependencies
         )
