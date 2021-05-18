@@ -93,7 +93,7 @@ extension Project {
                         "Targets/\(name)/Sources/**/*.json"
             ],
             actions: [
-                TargetAction.post(path: "../scripts/swiftlint.sh", name: "SwiftLint")
+                TargetAction.post(path: "../scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
             ],
             dependencies: dependencies
         )
