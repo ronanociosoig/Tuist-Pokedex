@@ -8,24 +8,27 @@
 
 import Foundation
 
-enum Directory {
+public enum Directory {
     case documents
     case caches
 }
 
-protocol Storable {
+public protocol Storable {
     func fileExists(fileName: String, in directory: Directory) -> Bool
     func save<T: Encodable>(_ object: T, to directory: Directory, as fileName: String)
     func load<T: Decodable>(_ fileName: String, from directory: Directory, as type: T.Type) -> T?
     func remove(_ fileName: String, from directory: Directory)
 }
 
-class FileStorage: Storable {
-    func save<T>(_ object: T, to directory: Directory, as fileName: String) where T: Encodable {
+public class FileStorage: Storable {
+    public init() {
+        
+    }
+    public func save<T>(_ object: T, to directory: Directory, as fileName: String) where T: Encodable {
         Storage.store(object, to: directoryAdaptor(directory: directory), as: fileName)
     }
     
-    func load<T>(_ fileName: String, from directory: Directory, as type: T.Type) -> T? where T: Decodable {
+    public func load<T>(_ fileName: String, from directory: Directory, as type: T.Type) -> T? where T: Decodable {
         if fileExists(fileName: fileName, in: directory) {
             return Storage.retrieve(fileName, from: directoryAdaptor(directory: directory), as: T.self)
         }
@@ -33,11 +36,11 @@ class FileStorage: Storable {
         return nil
     }
     
-    func fileExists(fileName: String, in directory: Directory) -> Bool {
+    public func fileExists(fileName: String, in directory: Directory) -> Bool {
         return Storage.fileExists(AppData.pokemonFile, in: directoryAdaptor(directory: directory))
     }
     
-    func remove(_ fileName: String, from directory: Directory) {
+    public func remove(_ fileName: String, from directory: Directory) {
         Storage.remove(fileName, from: directoryAdaptor(directory: directory))
     }
     
