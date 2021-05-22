@@ -8,11 +8,11 @@
 
 import Foundation
 
-class AppData {
-    static let pokemonFile = "pokemons.json"
+public class AppData {
+    public static let pokemonFile = "pokemons.json"
     
-    var pokemon: Pokemon?
-    var pokemons = [LocalPokemon]()
+    public var pokemon: Pokemon?
+    public var pokemons = [LocalPokemon]()
     
     let storage: Storable
     
@@ -42,7 +42,7 @@ class AppData {
         storage.save(pokemons, to: directory(), as: AppData.pokemonFile)
     }
     
-    func directory() -> Directory {
+    public func directory() -> Directory {
         if Configuration.uiTesting == true {
             return .caches
         }

@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol Notifier {
+public protocol Notifier {
     func dataReceived(errorMessage: String?, on queue: DispatchQueue?)
 }

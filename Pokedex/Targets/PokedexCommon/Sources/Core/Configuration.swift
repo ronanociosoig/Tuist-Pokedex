@@ -8,9 +8,9 @@
 
 import UIKit
 
-struct Configuration {
+public struct Configuration {
     
-    static var uiTesting: Bool {
+    public static var uiTesting: Bool {
         
         // We can use CommandLine.arguments for this as well.
         let arguments = ProcessInfo.processInfo.arguments
@@ -27,12 +27,12 @@ struct Configuration {
         return result
     }
     
-    static var networkTesting: Bool {
+    public static var networkTesting: Bool {
         let arguments = CommandLine.arguments
         return arguments.contains("NetworkTesting")
     }
     
-    static var authenticationErrorTesting: Bool {
+    public static var authenticationErrorTesting: Bool {
         return CommandLine.arguments.contains("Error_401")
     }
 }

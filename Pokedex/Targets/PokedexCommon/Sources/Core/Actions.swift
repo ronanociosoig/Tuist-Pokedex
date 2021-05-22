@@ -8,11 +8,11 @@
 
 import Foundation
 
-class Actions {
-    let coordinator: Coordinating
-    var dataProvider: DataProviding?
+public class Actions {
+    public let coordinator: Coordinating
+    public var dataProvider: DataProviding?
     
-    init(coordinator: Coordinating) {
+    public init(coordinator: Coordinating) {
         self.coordinator = coordinator
     }
 }

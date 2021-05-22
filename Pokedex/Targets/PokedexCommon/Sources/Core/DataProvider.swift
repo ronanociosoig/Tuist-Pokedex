@@ -16,7 +16,7 @@ struct Log {
     static var data = OSLog(subsystem: "com.sonomos.pokedex", category: "data")
 }
 
-protocol DataProviding {
+public protocol DataProviding {
     init(service: PokemonSearchLoadingService)
     
     func search(identifier: Int)
@@ -25,21 +25,21 @@ protocol DataProviding {
     func pokemon(at index: Int) -> LocalPokemon
 }
 
-class DataProvider: DataProviding {
-    let appData = AppData(storage: FileStorage())
-    var notifier: Notifier?
+public class DataProvider: DataProviding {
+    public let appData = AppData(storage: FileStorage())
+    public var notifier: Notifier?
     private let networkService: PokemonSearchLoadingService
     
-    required init(service: PokemonSearchLoadingService) {
+    public required init(service: PokemonSearchLoadingService) {
         self.networkService = service
     }
     
-    func start() {
+    public func start() {
         appData.load()
         appData.sortByOrder()
     }
     
-    func search(identifier: Int) {
+    public func search(identifier: Int) {
         appData.pokemon = nil
         
         networkService.search(identifier: identifier) { (data, errorMessage) in
@@ -77,7 +77,7 @@ class DataProvider: DataProviding {
         }
     }
     
-    func catchPokemon() {
+    public func catchPokemon() {
         guard let pokemon = appData.pokemon else { return }
         let localPokemon = PokemonParser.parse(pokemon: pokemon)
         appData.pokemons.append(localPokemon)
@@ -85,11 +85,11 @@ class DataProvider: DataProviding {
         appData.save()
     }
     
-    func newSpecies() -> Bool {
+    public func newSpecies() -> Bool {
         return appData.newSpecies()
     }
     
-    func pokemon(at index: Int) -> LocalPokemon {
+    public func pokemon(at index: Int) -> LocalPokemon {
         return appData.pokemons[index]
     }
 }
