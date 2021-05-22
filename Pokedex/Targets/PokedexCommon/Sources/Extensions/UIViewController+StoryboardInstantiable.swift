@@ -10,13 +10,13 @@
 
 import UIKit
 
-protocol StoryboardInstantiable {
+public protocol StoryboardInstantiable {
     static var storyboardIdentifier: String { get }
     static func instantiateFromStoryboard(storyboard: UIStoryboard) -> Self
 }
 
 extension UIViewController: StoryboardInstantiable {
-    static var storyboardIdentifier: String {
+    public static var storyboardIdentifier: String {
         // Get the name of current class
         let classString = NSStringFromClass(self)
         let components = classString.components(separatedBy: ".")
@@ -24,7 +24,7 @@ extension UIViewController: StoryboardInstantiable {
         return components.last!
     }
     
-    class func instantiateFromStoryboard(storyboard: UIStoryboard) -> Self {
+    public class func instantiateFromStoryboard(storyboard: UIStoryboard) -> Self {
         return instantiateFromStoryboard(storyboard: storyboard, type: self)
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension UIBarButtonItem {
+public extension UIBarButtonItem {
     
     /// Typealias for UIBarButtonItem closure.
     typealias UIBarButtonItemTargetClosure = (UIBarButtonItem) -> Void
