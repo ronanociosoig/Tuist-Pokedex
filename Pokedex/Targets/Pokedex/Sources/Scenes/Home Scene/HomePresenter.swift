@@ -6,11 +6,11 @@
 //  Copyright © 2019 Sonomos. All rights reserved.
 //
 
-protocol HomeView: class {
+protocol HomeView: AnyObject {
     
 }
 
-protocol HomePresenting: class {
+protocol HomePresenting: AnyObject {
     func ballButtonAction()
     func backpackButtonAction()
 }

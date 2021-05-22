@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol PokemonDetailView: class {
+protocol PokemonDetailView: AnyObject {
     
 }
 
-protocol PokemonDetailPresenting: class {
+protocol PokemonDetailPresenting: AnyObject {
     func weight() -> String
     func name() -> String
     func height() -> String

@@ -8,11 +8,11 @@
 
 // swiftlint:disable weak_delegate
 
-protocol BackpackView: class {
+protocol BackpackView: AnyObject {
     func setDataSource(dataSource: BackpackDataSource)
 }
 
-protocol BackpackPresenting: class {
+protocol BackpackPresenting: AnyObject {
     var dataSource: BackpackDataSource { get }
     var delegate: BackpackDelegate { get }
     

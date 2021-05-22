@@ -6,7 +6,7 @@
 //  Copyright © 2019 Sonomos. All rights reserved.
 //
 
-protocol CatchView: class {
+protocol CatchView: AnyObject {
     func update()
     func showLeaveOrCatchAlert()
     func showLeaveItAlert()
@@ -14,7 +14,7 @@ protocol CatchView: class {
     func showError(message: String)
 }
 
-protocol CatchPresenting: class {
+protocol CatchPresenting: AnyObject {
     func pokemon() -> ScreenPokemon?
     func catchPokemonAction()
 }
