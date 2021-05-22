@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Generator {
-    static func nextIdentifier() -> Int {
+public struct Generator {
+    public static func nextIdentifier() -> Int {
         return Int.random(in: Constants.PokemonAPI.minIdentifier..<Constants.PokemonAPI.maxIdentifier)
     }
 }

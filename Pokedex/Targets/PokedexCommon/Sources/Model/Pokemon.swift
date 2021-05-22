@@ -8,37 +8,37 @@
 
 import Foundation
 
-struct Pokemon: Codable {
+public struct Pokemon: Codable {
     let baseExperience: Int
-    let height: Int
+    public let height: Int
     // swiftlint:disable identifier_name
     let id: Int
     // swiftlint:enable identifier_name
-    let name: String
-    let order: Int
+    public let name: String
+    public let order: Int
     let species: Species
-    let sprites: Sprites
-    let types: [TypeElement]
-    let weight: Int
+    public let sprites: Sprites
+    public let types: [TypeElement]
+    public let weight: Int
 }
 
-struct Species: Codable {
-    let name: String
-    let url: String
+public struct Species: Codable {
+    public let name: String
+    public let url: String
 }
 
-struct Sprites: Codable {
+public struct Sprites: Codable {
     let backDefault: String?
     let backFemale: String?
     let backShiny: String?
     let backShinyFemale: String?
-    let frontDefault: String?
+    public let frontDefault: String?
     let frontFemale: String?
     let frontShiny: String?
     let frontShinyFemale: String?
 }
 
-struct TypeElement: Codable {
+public struct TypeElement: Codable {
     let slot: Int
-    let type: Species
+    public let type: Species
 }
