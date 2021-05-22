@@ -8,23 +8,11 @@
 
 import Foundation
 import JGProgressHUD
+import PokedexCommon
 
 protocol Updatable {
     func update()
     func showError(message: String)
-}
-
-protocol Coordinating {
-    var dataProvider: DataProvider? { get set }
-    
-    func start()
-    func showLoading()
-    func dismissLoading()
-    func showHomeScene()
-    func showCatchScene()
-    func showBackpackScene()
-    func showPokemonDetailScene(pokemon: LocalPokemon)
-    func showAlert(with errorMessage: String)
 }
 
 class Coordinator: Coordinating {
