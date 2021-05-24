@@ -8,6 +8,7 @@
 
 import UIKit
 import Haneke
+import PokedexCommon
 
 class PokemonDetailViewController: UIViewController {
     var presenter: PokemonDetailPresenting?

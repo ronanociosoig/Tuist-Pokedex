@@ -8,6 +8,7 @@
 
 import UIKit
 import Haneke
+import PokedexCommon
 
 class CatchViewController: UIViewController {
     var presenter: CatchPresenting?
