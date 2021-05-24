@@ -18,7 +18,7 @@ let project = Project.app(name: "Pokedex",
                                                              frameworkDependancies: []),
                                               LocalFramework(name: "PokedexCommon",
                                                             path: "Pokedex",
-                                                            frameworkDependancies: []),
+                                                            frameworkDependancies: [.target(name: "NetworkKit")]),
                                               LocalFramework(name: "NetworkKit",
                                                              path: "Network",
                                                              frameworkDependancies: [
