@@ -89,8 +89,7 @@ extension Project {
             sources: ["Targets/\(name)/Sources/**"],
             resources: ["Targets/\(name)/Resources/**",
                         "Targets/\(name)/Sources/**/*.storyboard",
-                        "Targets/\(name)/Sources/**/*.xib",
-                        "Targets/\(name)/Sources/**/*.json"
+                        "Targets/\(name)/Sources/**/*.xib"
             ],
             actions: [
                 TargetAction.post(path: "../scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
