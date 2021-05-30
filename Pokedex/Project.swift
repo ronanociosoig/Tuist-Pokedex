@@ -15,14 +15,16 @@ let project = Project.app(name: "Pokedex",
                             .package(product: "JGProgressHUD")],
                           additionalTargets: [LocalFramework(name: "Haneke",
                                                              path: "Haneke",
-                                                             frameworkDependancies: []),
+                                                             frameworkDependancies: [],
+                                                             resources: []),
                                               LocalFramework(name: "PokedexCommon",
                                                             path: "Pokedex",
-                                                            frameworkDependancies: [.target(name: "NetworkKit")]),
+                                                            frameworkDependancies: [.target(name: "NetworkKit")],
+                                                            resources: ["Targets/PokedexCommon/Sources/**/*.xib"]),
                                               LocalFramework(name: "NetworkKit",
                                                              path: "Network",
                                                              frameworkDependancies: [
                                                                 .package(product: "Moya"),
                                                              .package(product: "Result")
-                                                             ])
+                                                             ], resources: [])
                           ])

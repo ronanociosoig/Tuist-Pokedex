@@ -11,11 +11,13 @@ public struct LocalFramework {
     let name: String
     let path: String
     let frameworkDependancies: [TargetDependency]
+    let resources: [String]
     
-    public init(name: String, path: String, frameworkDependancies: [TargetDependency]) {
+    public init(name: String, path: String, frameworkDependancies: [TargetDependency], resources: [String]) {
         self.name = name
         self.path = path
         self.frameworkDependancies = frameworkDependancies
+        self.resources = resources
     }
 }
 
@@ -50,15 +52,18 @@ extension Project {
     /// Helper function to create a framework target and an associated unit test target
     private static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
         let relativeFrameworkPath = "../\(localFramework.path)/Targets/\(localFramework.name)"
+        let resources = localFramework.resources
+        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path($0), tags: [])}
         let sources = Target(name: localFramework.name,
                 platform: platform,
                 product: .framework,
                 bundleId: "\(reverseOrganizationName).\(localFramework.name)",
                 infoPlist: .default,
                 sources: ["\(relativeFrameworkPath)/Sources/**"],
-                resources: [],
+                resources: ResourceFileElements(resources: resourceFilePaths),
                 headers: Headers(public: ["\(relativeFrameworkPath)/Sources/**/*.h"]),
                 dependencies: localFramework.frameworkDependancies)
+        
         let tests = Target(name: "\(localFramework.name)Tests",
                 platform: platform,
                 product: .unitTests,
@@ -67,6 +72,7 @@ extension Project {
                 sources: ["\(relativeFrameworkPath)/Tests/**"],
                 resources: [],
                 dependencies: [.target(name: localFramework.name)])
+        
         return [sources, tests]
     }
 
