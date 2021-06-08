@@ -20,7 +20,7 @@ extension UITableView {
     
     /// Register UITableViewCell type
     public func register(cellType: UITableViewCell.Type) {
-        self.register(UINib(nibName: cellType.identifier, bundle: nil), forCellReuseIdentifier: cellType.identifier)
+        self.register(UINib(nibName: cellType.identifier, bundle: Bundle(for: cellType.self)), forCellReuseIdentifier: cellType.identifier)
     }
     
     /// Register UITableViewCell types
@@ -58,7 +58,7 @@ extension UICollectionView {
     
     /// Register UITableViewCell type
     public func register(cellType: UICollectionViewCell.Type) {
-        self.register(UINib(nibName: cellType.identifier, bundle: nil), forCellWithReuseIdentifier: cellType.identifier)
+        self.register(UINib(nibName: cellType.identifier, bundle: Bundle(for: cellType.self)), forCellWithReuseIdentifier: cellType.identifier)
     }
     
     /**
