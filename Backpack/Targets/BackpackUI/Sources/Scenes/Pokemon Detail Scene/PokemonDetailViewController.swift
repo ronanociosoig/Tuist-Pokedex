@@ -10,12 +10,12 @@ import UIKit
 import Haneke
 import PokedexCommon
 
-class PokemonDetailViewController: UIViewController {
+public class PokemonDetailViewController: UIViewController {
     var presenter: PokemonDetailPresenting?
     
     private var pokemonView: PokemonView?
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         addPokemonView()
     }
     
@@ -33,7 +33,7 @@ class PokemonDetailViewController: UIViewController {
         self.pokemonView = pokemonView
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configurePokemonView()
     }

@@ -9,12 +9,12 @@
 import UIKit
 import PokedexCommon
 
-class BackpackViewController: UIViewController {
+public class BackpackViewController: UIViewController {
     var presenter: BackpackPresenting?
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
         guard let presenter = presenter else { return }

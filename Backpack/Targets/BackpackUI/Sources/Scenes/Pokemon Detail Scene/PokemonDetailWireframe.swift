@@ -9,14 +9,14 @@
 import UIKit
 import PokedexCommon
 
-class PokemonDetailWireframe {
+public class PokemonDetailWireframe {
     
-    static func makeViewController() -> PokemonDetailViewController {
+    public static func makeViewController() -> PokemonDetailViewController {
         let storyboard = UIStoryboard.init(name: "PokemonDetailViewController", bundle: nil)
         return PokemonDetailViewController.instantiateFromStoryboard(storyboard: storyboard)
     }
     
-    static func prepare(_ viewController: PokemonDetailViewController, pokemon: LocalPokemon) {
+    public static func prepare(_ viewController: PokemonDetailViewController, pokemon: LocalPokemon) {
     	let presenter =  PokemonDetailPresenter(view: viewController, pokemon: pokemon)
         viewController.presenter = presenter
     }

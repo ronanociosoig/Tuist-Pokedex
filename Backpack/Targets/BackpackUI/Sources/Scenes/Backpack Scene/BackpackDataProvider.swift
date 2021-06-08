@@ -8,12 +8,12 @@
 
 import PokedexCommon
 
-protocol BackpackDataProvider {
+public protocol BackpackDataProvider {
     func pokemons() -> [LocalPokemon]
 }
 
 extension DataProvider: BackpackDataProvider {
-    func pokemons() -> [LocalPokemon] {
+    public func pokemons() -> [LocalPokemon] {
         return appData.pokemons
     }
 }

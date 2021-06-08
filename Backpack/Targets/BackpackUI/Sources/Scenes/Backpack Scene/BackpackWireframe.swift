@@ -9,14 +9,14 @@
 import UIKit
 import PokedexCommon
 
-class BackpackWireframe {
+public class BackpackWireframe {
     
-    static func makeViewController() -> BackpackViewController {
-        let storyboard = UIStoryboard.init(name: "BackpackViewController", bundle: nil)
+    public static func makeViewController() -> BackpackViewController {
+        let storyboard = UIStoryboard.init(name: "BackpackViewController", bundle: Bundle(for: BackpackViewController.self))
         return BackpackViewController.instantiateFromStoryboard(storyboard: storyboard)
     }
     
-    static func makeNavigationController() -> UINavigationController {
+    public static func makeNavigationController() -> UINavigationController {
         let viewController = makeViewController()
         let navigationController = UINavigationController(rootViewController: viewController)
         let navigationBarButton = UIBarButtonItem(title: Constants.Translations.BackpackScene.closeButton,
@@ -29,7 +29,7 @@ class BackpackWireframe {
         return navigationController
     }
     
-    static func prepare(_ viewController: BackpackViewController, actions: BackpackActions, dataProvider: BackpackDataProvider) {
+    public static func prepare(_ viewController: BackpackViewController, actions: BackpackActions, dataProvider: BackpackDataProvider) {
     	let presenter =  BackpackPresenter(actions: actions, dataProvider: dataProvider, view: viewController)
         viewController.presenter = presenter
     }

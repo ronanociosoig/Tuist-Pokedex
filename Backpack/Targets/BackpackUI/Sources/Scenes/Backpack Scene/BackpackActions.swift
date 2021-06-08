@@ -8,12 +8,12 @@
 
 import PokedexCommon
 
-protocol BackpackActions {
+public protocol BackpackActions {
     func selectItem(at index: Int)
 }
 
 extension Actions: BackpackActions {
-    func selectItem(at index: Int) {
+    public func selectItem(at index: Int) {
         guard let dataProvider = dataProvider else { return }
         let pokemon = dataProvider.pokemon(at: index)
         coordinator.showPokemonDetailScene(pokemon: pokemon)
