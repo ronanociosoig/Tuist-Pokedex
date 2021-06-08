@@ -53,7 +53,7 @@ extension Project {
     private static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
         let relativeFrameworkPath = "../\(localFramework.path)/Targets/\(localFramework.name)"
         let resources = localFramework.resources
-        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path($0), tags: [])}
+        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("../\(localFramework.path)/" + $0), tags: [])}
         let sources = Target(name: localFramework.name,
                 platform: platform,
                 product: .framework,
