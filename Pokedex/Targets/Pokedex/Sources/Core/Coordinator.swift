@@ -9,6 +9,8 @@
 import Foundation
 import JGProgressHUD
 import PokedexCommon
+import NetworkKit
+import BackpackUI
 
 protocol Updatable {
     func update()
@@ -63,7 +65,7 @@ class Coordinator: Coordinating {
     
     func searchNextPokemon() {
         guard let dataProvider = dataProvider else { return }
-        dataProvider.search(identifier: Generator.nextIdentifier())
+        dataProvider.search(identifier: Generator.nextIdentifier(), networkService: PokemonSearchService())
     }
     
     func showBackpackScene() {

@@ -18,7 +18,7 @@ class AppController: AppControlling {
     var coordinator: Coordinating?
     
     func start() {
-        let dataProvider = DataProvider(service: PokemonSearchService())
+        let dataProvider = DataProvider()
         
         if Configuration.uiTesting == true {
             let storage = FileStorage()
