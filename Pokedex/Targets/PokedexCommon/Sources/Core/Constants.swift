@@ -62,8 +62,8 @@ public struct Constants {
         }
     }
     
-    struct PokemonAPI {
-        static let minIdentifier = 1
-        static let maxIdentifier = 1000
+    public struct PokemonAPI {
+        public static let minIdentifier = 1
+        public static let maxIdentifier = 1000
     }
 }

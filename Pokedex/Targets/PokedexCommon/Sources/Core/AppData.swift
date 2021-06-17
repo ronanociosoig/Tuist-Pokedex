@@ -20,7 +20,7 @@ public class AppData {
         self.storage = storage
     }
     
-    func newSpecies() -> Bool {
+    public func newSpecies() -> Bool {
         guard let pokemon = pokemon else { return false }
         
         if pokemons.isEmpty {
@@ -49,7 +49,7 @@ public class AppData {
         return .documents
     }
     
-    func sortByOrder() {
+    public func sortByOrder() {
         pokemons.sort(by: {
             $0.order < $1.order
         })

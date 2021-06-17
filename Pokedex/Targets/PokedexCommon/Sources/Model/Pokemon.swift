@@ -9,14 +9,14 @@
 import Foundation
 
 public struct Pokemon: Codable {
-    let baseExperience: Int
+    public let baseExperience: Int
     public let height: Int
     // swiftlint:disable identifier_name
     let id: Int
     // swiftlint:enable identifier_name
     public let name: String
     public let order: Int
-    let species: Species
+    public let species: Species
     public let sprites: Sprites
     public let types: [TypeElement]
     public let weight: Int
@@ -28,14 +28,14 @@ public struct Species: Codable {
 }
 
 public struct Sprites: Codable {
-    let backDefault: String?
-    let backFemale: String?
-    let backShiny: String?
-    let backShinyFemale: String?
+    public let backDefault: String?
+    public let backFemale: String?
+    public let backShiny: String?
+    public let backShinyFemale: String?
     public let frontDefault: String?
-    let frontFemale: String?
-    let frontShiny: String?
-    let frontShinyFemale: String?
+    public let frontFemale: String?
+    public let frontShiny: String?
+    public let frontShinyFemale: String?
 }
 
 public struct TypeElement: Codable {
