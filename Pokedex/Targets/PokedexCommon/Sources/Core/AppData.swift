@@ -16,7 +16,7 @@ public class AppData {
     
     let storage: Storable
     
-    init(storage: Storable) {
+    public init(storage: Storable) {
         self.storage = storage
     }
     
