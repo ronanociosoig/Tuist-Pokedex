@@ -24,5 +24,7 @@ class AppController: AppControlling {
         coordinator = Coordinator()
         coordinator?.dataProvider = dataProvider
         coordinator?.start()
+        
+        dataProvider.appData.pokemons = MockDataFactory.makePokemons()
     }
 }
