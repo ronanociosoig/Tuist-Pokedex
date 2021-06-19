@@ -12,7 +12,7 @@ import PokedexCommon
 public class PokemonDetailWireframe {
     
     public static func makeViewController() -> PokemonDetailViewController {
-        let storyboard = UIStoryboard.init(name: "PokemonDetailViewController", bundle: nil)
+        let storyboard = UIStoryboard.init(name: "PokemonDetailViewController", bundle: Bundle(for: PokemonDetailViewController.self))
         return PokemonDetailViewController.instantiateFromStoryboard(storyboard: storyboard)
     }
     
