@@ -21,5 +21,5 @@ let project = Project.app(name: "Backpack",
                                               LocalFramework(name: "PokedexCommon",
                                                             path: "Pokedex",
                                                             frameworkDependancies: [],
-                                                            resources: [])
+                                                            resources: ["../Pokedex/Targets/PokedexCommon/Sources/**/*.xib"])
                           ])
