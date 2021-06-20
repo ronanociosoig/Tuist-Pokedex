@@ -31,5 +31,5 @@ let project = Project.app(name: "Pokedex",
                                                              frameworkDependancies: [
                                                                 .package(product: "Moya"),
                                                                 .package(product: "Result")
-                                                             ], resources: [])
+                                                             ], resources: ["Targets/NetworkKit/Resources/**"])
                           ])
