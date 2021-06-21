@@ -15,11 +15,21 @@ let project = Project.app(name: "Pokedex",
                             .package(product: "JGProgressHUD")],
                           additionalTargets: [LocalFramework(name: "Haneke",
                                                              path: "Haneke",
-                                                             frameworkDependancies: []),
+                                                             frameworkDependancies: [],
+                                                             resources: []),
+                                              LocalFramework(name: "BackpackUI",
+                                                             path: "Backpack",
+                                                             frameworkDependancies: [.target(name: "PokedexCommon")],
+                                                             resources: ["Targets/BackpackUI/Sources/**/*.xib",
+                                                                         "Targets/BackpackUI/Sources/**/*.storyboard"]),
+                                              LocalFramework(name: "PokedexCommon",
+                                                             path: "Pokedex",
+                                                             frameworkDependancies: [],
+                                                             resources: ["Targets/PokedexCommon/Sources/**/*.xib"]),
                                               LocalFramework(name: "NetworkKit",
                                                              path: "Network",
                                                              frameworkDependancies: [
                                                                 .package(product: "Moya"),
-                                                             .package(product: "Result")
-                                                             ])
+                                                                .package(product: "Result")
+                                                             ], resources: ["Targets/NetworkKit/Resources/**"])
                           ])

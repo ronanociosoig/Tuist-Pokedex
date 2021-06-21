@@ -1,0 +1,16 @@
+//
+//  {{ name }}.swift
+//  {{ name }}
+//
+//  Created by {{ author }}.
+//  Copyright © 2021. All rights reserved.
+//
+
+import UIKit
+
+public struct {{ name }} {
+    public func start() {
+        
+    }
+}
+

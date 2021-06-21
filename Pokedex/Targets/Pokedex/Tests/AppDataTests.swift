@@ -9,8 +9,10 @@
 // swiftlint:disable all
 
 import XCTest
+import Pokedex
+import PokedexCommon
 
-@testable import Pokedex
+//@testable import Pokedex
 
 class AppDataTests: XCTestCase {
     enum PokemonId: Int {

@@ -13,11 +13,13 @@ import Result
 
 public protocol PokemonSearchLoadingService: AnyObject {
     var provider: MoyaProvider<PokemonSearchEndpoint> { get }
-    
+}
+
+public protocol SearchService: AnyObject {
     func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void)
 }
 
-public class PokemonSearchService: PokemonSearchLoadingService {
+public class PokemonSearchService: SearchService, PokemonSearchLoadingService {
     // swiftlint:disable force_unwrapping
     let customEndpointClosure = { (target: PokemonSearchEndpoint) -> Endpoint in
         return Endpoint(url: URL(target: target).absoluteString,

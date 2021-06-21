@@ -37,7 +37,7 @@ extension Project {
                 bundleId: "\(reverseOrganizationName).\(name)",
                 infoPlist: .default,
                 sources: ["Targets/\(name)/Sources/**"],
-                resources: [],
+                resources: ["Targets/\(name)/Resources/**"],
                 dependencies: [.package(product: "Moya"),
                                .package(product: "Result")])
         let tests = Target(name: "\(name)Tests",

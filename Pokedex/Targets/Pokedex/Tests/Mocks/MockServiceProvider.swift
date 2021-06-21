@@ -10,6 +10,7 @@
 
 import Foundation
 import Moya
+import NetworkKit
 
 @testable import Pokedex
 

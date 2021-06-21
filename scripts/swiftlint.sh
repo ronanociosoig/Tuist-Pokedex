@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-SOURCES_PATH="Targets/Pokedex/Sources"
+SOURCES_PATH="Targets/$1/Sources"
 
 if which swiftlint >/dev/null; then
 swiftlint --path $SOURCES_PATH --config ../.swiftlint.yml --quiet

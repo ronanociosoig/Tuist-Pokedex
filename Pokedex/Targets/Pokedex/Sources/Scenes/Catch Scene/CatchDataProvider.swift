@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PokedexCommon
 
 protocol CatchDataProvider {
     func pokemon() -> ScreenPokemon?
