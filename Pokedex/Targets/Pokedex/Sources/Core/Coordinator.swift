@@ -12,11 +12,6 @@ import PokedexCommon
 import NetworkKit
 import BackpackUI
 
-protocol Updatable {
-    func update()
-    func showError(message: String)
-}
-
 class Coordinator: Coordinating {
     let window: UIWindow
     var dataProvider: DataProvider?
