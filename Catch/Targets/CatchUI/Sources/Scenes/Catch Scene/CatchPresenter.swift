@@ -1,9 +1,9 @@
 //
 //  CatchPresenter.swift
-//  Pokedex
+//  CatchUI
 //
-//  Created by Ronan on 09/05/2019.
-//  Copyright © 2019 Sonomos. All rights reserved.
+//  Created by Ronan on 01/07/21.
+//  Copyright © 2021 Sonomos. All rights reserved.
 //
 
 import PokedexCommon
@@ -16,12 +16,12 @@ protocol CatchView: AnyObject {
     func showError(message: String)
 }
 
-protocol CatchPresenting: AnyObject {
+public protocol CatchPresenting: AnyObject {
     func pokemon() -> ScreenPokemon?
     func catchPokemonAction()
 }
 
-class CatchPresenter: CatchPresenting, Updatable {
+public class CatchPresenter: CatchPresenting, Updatable {
 
     // MARK: Properties
     
@@ -41,7 +41,7 @@ class CatchPresenter: CatchPresenting, Updatable {
         self.dataProvider = dataProvider
     }
     
-    func update() {
+    public func update() {
         guard let view = view else { return }
         view.update()
         
@@ -53,15 +53,15 @@ class CatchPresenter: CatchPresenting, Updatable {
         dataProvider.newSpecies() ? view.showLeaveOrCatchAlert() : view.showLeaveItAlert()
     }
     
-    func showError(message: String) {
+    public func showError(message: String) {
         view?.showError(message: message)
     }
     
-    func pokemon() -> ScreenPokemon? {
+    public func pokemon() -> ScreenPokemon? {
         return dataProvider.pokemon()
     }
     
-    func catchPokemonAction() {
+    public func catchPokemonAction() {
         actions.catchPokemon()
     }
 }

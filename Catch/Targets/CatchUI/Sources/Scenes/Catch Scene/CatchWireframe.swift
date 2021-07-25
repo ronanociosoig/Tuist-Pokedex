@@ -1,21 +1,21 @@
 //
 //  CatchWireframe.swift
-//  Pokedex
+//  CatchUI
 //
-//  Created by Ronan on 09/05/2019.
-//  Copyright © 2019 Sonomos. All rights reserved.
+//  Created by Ronan on 01/07/21.
+//  Copyright © 2021 Sonomos. All rights reserved.
 //
 
 import UIKit
 
-class CatchWireframe {
+public class CatchWireframe {
     
-    static func makeViewController() -> CatchViewController {
-        let storyboard = UIStoryboard.init(name: "CatchViewController", bundle: nil)
+    public static func makeViewController() -> CatchViewController {
+        let storyboard = UIStoryboard.init(name: "CatchViewController", bundle: Bundle(for: CatchViewController.self))
         return CatchViewController.instantiateFromStoryboard(storyboard: storyboard)
     }
     
-    static func prepare(_ viewController: CatchViewController,
+    public static func prepare(_ viewController: CatchViewController,
                         actions: CatchActions,
                         dataProvider: CatchDataProvider) {
     	let presenter =  CatchPresenter(view: viewController,

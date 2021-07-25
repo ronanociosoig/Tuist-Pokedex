@@ -1,18 +1,30 @@
 //
 //  CatchViewController.swift
-//  Pokedex
+//  CatchUI
 //
-//  Created by Ronan on 09/05/2019.
-//  Copyright © 2019 Sonomos. All rights reserved.
+//  Created by Ronan on 01/07/21.
+//  Copyright © 2021 Sonomos. All rights reserved.
 //
 
 import UIKit
 import Haneke
 import PokedexCommon
 
-class CatchViewController: UIViewController {
-    var presenter: CatchPresenting?
+public class CatchViewController: UIViewController {
+    @IBOutlet var backgroundImageView: UIImageView!
+    @IBOutlet var button: UIButton!
+    
+    public var presenter: CatchPresenting?
     private var pokemonView: PokemonView?
+    
+    public override func viewDidLoad() {
+        let image = UIImage(named: "Background", in: Bundle(for: CatchViewController.self), with: nil)
+        backgroundImageView.image = image
+        
+        let buttonImage = UIImage(named: "Ball", in: Bundle(for: CatchViewController.self), with: nil)
+        
+        button.setImage(buttonImage, for: .normal)
+    }
     
     @IBAction func ballAction() {
         dismiss(animated: true) {
@@ -37,7 +49,7 @@ extension CatchViewController: CatchView {
         guard let path = screenPokemon.iconPath else { return }
         guard let imageURL = URL(string: path) else { return }
         
-        pokemonView.imageView.hnk_setImage(from: imageURL)
+        pokemonView.imageView.hnk_setImage(from: imageURL, placeholder: UIImage(named: "PokemonPlaceholder"))
         pokemonView.backgroundColor = UIColor.clear
         pokemonView.center = view.center
     }
