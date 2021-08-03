@@ -93,8 +93,7 @@ extension Project {
             bundleId: "\(reverseOrganizationName).\(name)",
             infoPlist: .extendingDefault(with: infoPlist),
             sources: ["Targets/\(name)/Sources/**"],
-            resources: ["Targets/\(name)/Resources/**",
-                        "Targets/\(name)/Sources/**/*.storyboard"
+            resources: ["Targets/\(name)/Resources/**"
             ],
             actions: [
                 TargetAction.post(path: "../scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")

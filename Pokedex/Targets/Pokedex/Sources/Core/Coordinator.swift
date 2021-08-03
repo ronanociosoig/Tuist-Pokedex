@@ -11,11 +11,8 @@ import JGProgressHUD
 import PokedexCommon
 import NetworkKit
 import BackpackUI
-
-protocol Updatable {
-    func update()
-    func showError(message: String)
-}
+import CatchUI
+import HomeUI
 
 class Coordinator: Coordinating {
     let window: UIWindow

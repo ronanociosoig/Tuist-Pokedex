@@ -1,6 +1,6 @@
 //
 //  Configuration.swift
-//  ThoughtList
+//  PokedexCommon
 //
 //  Created by Ronan on 09/02/2019.
 //  Copyright © 2019 Sonomos. All rights reserved.
