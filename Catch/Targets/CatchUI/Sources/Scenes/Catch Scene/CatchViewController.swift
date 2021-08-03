@@ -49,7 +49,9 @@ extension CatchViewController: CatchView {
         guard let path = screenPokemon.iconPath else { return }
         guard let imageURL = URL(string: path) else { return }
         
-        pokemonView.imageView.hnk_setImage(from: imageURL, placeholder: UIImage(named: "PokemonPlaceholder"))
+        let placeholderImage = UIImage(named: "PokemonPlaceholder", in: Bundle(for: CatchViewController.self), with: nil)
+        
+        pokemonView.imageView.hnk_setImage(from: imageURL, placeholder: placeholderImage)
         pokemonView.backgroundColor = UIColor.clear
         pokemonView.center = view.center
     }
