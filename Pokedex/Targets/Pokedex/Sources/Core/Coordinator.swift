@@ -11,6 +11,8 @@ import JGProgressHUD
 import PokedexCommon
 import NetworkKit
 import BackpackUI
+import CatchUI
+import HomeUI
 
 class Coordinator: Coordinating {
     let window: UIWindow

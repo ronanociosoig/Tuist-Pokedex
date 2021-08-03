@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import NetworkKit
 import PokedexCommon
 
 protocol AppControlling {
