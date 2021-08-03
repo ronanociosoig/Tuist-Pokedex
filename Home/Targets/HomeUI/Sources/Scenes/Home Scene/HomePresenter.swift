@@ -6,16 +6,16 @@
 //  Copyright © 2019 Sonomos. All rights reserved.
 //
 
-protocol HomeView: AnyObject {
+public protocol HomeView: AnyObject {
     
 }
 
-protocol HomePresenting: AnyObject {
+public protocol HomePresenting: AnyObject {
     func ballButtonAction()
     func backpackButtonAction()
 }
 
-class HomePresenter: HomePresenting {
+public class HomePresenter: HomePresenting {
     
     // MARK: Properties
     
@@ -35,11 +35,11 @@ class HomePresenter: HomePresenting {
         self.dataProvider = dataProvider
     }
     
-    func ballButtonAction() {
+    public func ballButtonAction() {
         actions.ballButtonAction()
     }
     
-    func backpackButtonAction() {
+    public func backpackButtonAction() {
         actions.backpackButtonAction()
     }
 }

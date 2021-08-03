@@ -8,16 +8,15 @@
 
 import UIKit
 
-class HomeWireframe {
+public class HomeWireframe {
     
-    static func makeViewController() -> HomeViewController {
-        let storyboard = UIStoryboard.init(name: "HomeViewController", bundle: nil)
+    public static func makeViewController() -> HomeViewController {
+        let storyboard = UIStoryboard.init(name: "HomeViewController", bundle: Bundle(for: HomeViewController.self))
         return HomeViewController.instantiateFromStoryboard(storyboard: storyboard)
     }
     
-    static func prepare(_ viewController: HomeViewController, actions: HomeActions, dataProvider: HomeDataProvider) {
+    public static func prepare(_ viewController: HomeViewController, actions: HomeActions, dataProvider: HomeDataProvider) {
     	let presenter =  HomePresenter(view: viewController, actions: actions, dataProvider: dataProvider)
         viewController.presenter = presenter
     }
-    
 }

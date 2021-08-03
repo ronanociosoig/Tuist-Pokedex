@@ -8,7 +8,7 @@
 
 import PokedexCommon
 
-protocol HomeDataProvider {
+public protocol HomeDataProvider {
 
 }
 

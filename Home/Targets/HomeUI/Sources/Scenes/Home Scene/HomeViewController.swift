@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+public class HomeViewController: UIViewController {
     var presenter: HomePresenting?
 
     @IBAction func ballButtonAction() {

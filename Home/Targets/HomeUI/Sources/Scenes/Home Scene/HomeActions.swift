@@ -8,17 +8,17 @@
 
 import PokedexCommon
 
-protocol HomeActions {
+public protocol HomeActions {
     func ballButtonAction()
     func backpackButtonAction()
 }
 
 extension Actions: HomeActions {
-    func ballButtonAction() {
+    public func ballButtonAction() {
         coordinator.showCatchScene()
     }
     
-    func backpackButtonAction() {
+    public func backpackButtonAction() {
         coordinator.showBackpackScene()
     }
 }
