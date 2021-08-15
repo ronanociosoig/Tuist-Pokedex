@@ -3,6 +3,17 @@ import ProjectDescriptionHelpers
 
 // MARK: - Project
 
+func targets() -> [Target] {
+    // var targets: [Target] = []
+    
+    let frameworkTargets = Project.makeFrameworkTargets(localFramework: LocalFramework(name: "Haneke",
+                                                                             path: "Haneke",
+                                                                             frameworkDependancies: [],
+                                                                             resources: []), platform: .iOS)
+    
+    return frameworkTargets
+}
+
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(name: "Pokedex",
                           platform: .iOS,
@@ -20,26 +31,26 @@ let project = Project.app(name: "Pokedex",
                                               LocalFramework(name: "HomeUI",
                                                              path: "Home",
                                                              frameworkDependancies: [.target(name: "PokedexCommon")],
-                                                             resources: ["Targets/HomeUI/Sources/**/*.storyboard",
-                                                                         "Targets/HomeUI/Resources/**"]),
+                                                             resources: ["Sources/**/*.storyboard",
+                                                                         "Resources/**"]),
                                               LocalFramework(name: "BackpackUI",
                                                              path: "Backpack",
                                                              frameworkDependancies: [.target(name: "PokedexCommon")],
-                                                             resources: ["Targets/BackpackUI/Sources/**/*.xib",
-                                                                         "Targets/BackpackUI/Sources/**/*.storyboard"]),
+                                                             resources: ["Sources/**/*.xib",
+                                                                         "Sources/**/*.storyboard"]),
                                               LocalFramework(name: "CatchUI",
                                                              path: "Catch",
                                                              frameworkDependancies: [.target(name: "PokedexCommon")],
-                                                             resources: ["Targets/CatchUI/Sources/**/*.storyboard",
-                                                                         "Targets/CatchUI/Resources/**"]),
+                                                             resources: ["Sources/**/*.storyboard",
+                                                                         "Resources/**"]),
                                               LocalFramework(name: "PokedexCommon",
                                                              path: "Pokedex",
                                                              frameworkDependancies: [],
-                                                             resources: ["Targets/PokedexCommon/Sources/**/*.xib"]),
+                                                             resources: ["Sources/**/*.xib"]),
                                               LocalFramework(name: "NetworkKit",
                                                              path: "Network",
                                                              frameworkDependancies: [
                                                                 .package(product: "Moya"),
                                                                 .package(product: "Result")
-                                                             ], resources: ["Targets/NetworkKit/Resources/**"])
+                                                             ], resources: ["Resources/**"])
                           ])

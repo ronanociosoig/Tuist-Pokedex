@@ -36,6 +36,7 @@ extension Project {
         var targets = makeAppTargets(name: name,
                                      platform: platform,
                                      dependencies: dependencies)
+        
         targets += additionalTargets.flatMap({ makeFrameworkTargets(localFramework: $0, platform: platform) })
         
         let schemes = makeSchemes(targetName: name)
@@ -50,18 +51,18 @@ extension Project {
     // MARK: - Private
 
     /// Helper function to create a framework target and an associated unit test target
-    private static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
-        let relativeFrameworkPath = "../\(localFramework.path)/Targets/\(localFramework.name)"
+    public static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
+        let frameworkPath = "Projects/\(localFramework.path)/Targets/\(localFramework.name)"
         let resources = localFramework.resources
-        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("../\(localFramework.path)/" + $0), tags: [])}
+        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Projects/\(localFramework.path)/Targets/\(localFramework.name)/" + $0), tags: [])}
         let sources = Target(name: localFramework.name,
                 platform: platform,
                 product: .framework,
                 bundleId: "\(reverseOrganizationName).\(localFramework.name)",
                 infoPlist: .default,
-                sources: ["\(relativeFrameworkPath)/Sources/**"],
+                sources: ["\(frameworkPath)/Sources/**"],
                 resources: ResourceFileElements(resources: resourceFilePaths),
-                headers: Headers(public: ["\(relativeFrameworkPath)/Sources/**/*.h"]),
+                headers: Headers(public: ["\(frameworkPath)/Sources/**/*.h"]),
                 dependencies: localFramework.frameworkDependancies)
         
         let tests = Target(name: "\(localFramework.name)Tests",
@@ -69,7 +70,7 @@ extension Project {
                 product: .unitTests,
                 bundleId: "\(reverseOrganizationName).\(localFramework.name)Tests",
                 infoPlist: .default,
-                sources: ["\(relativeFrameworkPath)/Tests/**"],
+                sources: ["\(frameworkPath)/Tests/**"],
                 resources: [],
                 dependencies: [.target(name: localFramework.name)])
         
@@ -77,7 +78,7 @@ extension Project {
     }
 
     /// Helper function to create the application target and the unit test target.
-    private static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
+    public static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
         let platform: Platform = platform
         let infoPlist: [String: InfoPlist.Value] = [
             "CFBundleShortVersionString": "1.0",
@@ -92,11 +93,11 @@ extension Project {
             product: .app,
             bundleId: "\(reverseOrganizationName).\(name)",
             infoPlist: .extendingDefault(with: infoPlist),
-            sources: ["Targets/\(name)/Sources/**"],
-            resources: ["Targets/\(name)/Resources/**"
+            sources: ["Projects/\(name)/Targets/\(name)/Sources/**"],
+            resources: ["Projects/\(name)/Targets/\(name)/Resources/**"
             ],
             actions: [
-                TargetAction.post(path: "../scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
+                TargetAction.post(path: "scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
             ],
             dependencies: dependencies
         )
@@ -107,9 +108,9 @@ extension Project {
             product: .unitTests,
             bundleId: "\(reverseOrganizationName).\(name)Tests",
             infoPlist: .default,
-            sources: ["Targets/\(name)/Tests/**"],
-            resources: ["Targets/\(name)/Tests/**/*.json",
-                        "Targets/\(name)/Tests/**/*.png"],
+            sources: ["Projects/\(name)/Targets/\(name)/Tests/**"],
+            resources: ["Projects/\(name)/Targets/\(name)/Tests/**/*.json",
+                        "Projects/\(name)/Targets/\(name)/Tests/**/*.png"],
             dependencies: [
                 .target(name: "\(name)")
         ])
@@ -120,7 +121,7 @@ extension Project {
             product: .uiTests,
             bundleId: "\(reverseOrganizationName).\(name)UITests",
             infoPlist: .default,
-            sources: ["Targets/\(name)/UITests/**"],
+            sources: ["Projects/\(name)/Targets/\(name)/UITests/**"],
             resources: [],
             dependencies: [
                 .target(name: "\(name)")
