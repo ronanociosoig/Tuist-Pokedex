@@ -52,9 +52,9 @@ extension Project {
 
     /// Helper function to create a framework target and an associated unit test target
     public static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
-        let frameworkPath = "Projects/\(localFramework.path)/Targets/\(localFramework.name)"
+        let frameworkPath = "Features/\(localFramework.path)/Targets/\(localFramework.name)"
         let resources = localFramework.resources
-        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Projects/\(localFramework.path)/Targets/\(localFramework.name)/" + $0), tags: [])}
+        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(localFramework.path)/Targets/\(localFramework.name)/" + $0), tags: [])}
         let sources = Target(name: localFramework.name,
                 platform: platform,
                 product: .framework,
@@ -93,8 +93,8 @@ extension Project {
             product: .app,
             bundleId: "\(reverseOrganizationName).\(name)",
             infoPlist: .extendingDefault(with: infoPlist),
-            sources: ["Projects/\(name)/Targets/\(name)/Sources/**"],
-            resources: ["Projects/\(name)/Targets/\(name)/Resources/**"
+            sources: ["Features/\(name)/Targets/\(name)/Sources/**"],
+            resources: ["Features/\(name)/Targets/\(name)/Resources/**"
             ],
             actions: [
                 TargetAction.post(path: "scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
@@ -108,9 +108,9 @@ extension Project {
             product: .unitTests,
             bundleId: "\(reverseOrganizationName).\(name)Tests",
             infoPlist: .default,
-            sources: ["Projects/\(name)/Targets/\(name)/Tests/**"],
-            resources: ["Projects/\(name)/Targets/\(name)/Tests/**/*.json",
-                        "Projects/\(name)/Targets/\(name)/Tests/**/*.png"],
+            sources: ["Features/\(name)/Targets/\(name)/Tests/**"],
+            resources: ["Features/\(name)/Targets/\(name)/Tests/**/*.json",
+                        "Features/\(name)/Targets/\(name)/Tests/**/*.png"],
             dependencies: [
                 .target(name: "\(name)")
         ])
@@ -121,7 +121,7 @@ extension Project {
             product: .uiTests,
             bundleId: "\(reverseOrganizationName).\(name)UITests",
             infoPlist: .default,
-            sources: ["Projects/\(name)/Targets/\(name)/UITests/**"],
+            sources: ["Features/\(name)/Targets/\(name)/UITests/**"],
             resources: [],
             dependencies: [
                 .target(name: "\(name)")
