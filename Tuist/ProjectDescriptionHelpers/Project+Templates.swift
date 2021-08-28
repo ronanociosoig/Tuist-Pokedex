@@ -53,8 +53,17 @@ extension Project {
                        targets: targets,
                        schemes: schemes)
     }
-
-    // MARK: - Private
+    
+    public static func makeAppInfoPlist() -> InfoPlist {
+        let infoPlist: [String: InfoPlist.Value] = [
+            "CFBundleShortVersionString": "1.0",
+            "CFBundleVersion": "1",
+            "UIMainStoryboardFile": "",
+            "UILaunchStoryboardName": "LaunchScreen"
+            ]
+        
+        return InfoPlist.extendingDefault(with: infoPlist)
+    }
 
     /// Helper function to create a framework target and an associated unit test target
     public static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
@@ -69,7 +78,7 @@ extension Project {
                 platform: platform,
                 product: .app,
                 bundleId: "\(reverseOrganizationName).\(localFramework.name)ExampleApp",
-                infoPlist: .default,
+                infoPlist: makeAppInfoPlist(),
                 sources: ["Features/\(localFramework.path)/Targets/Example/Sources/**"],
                 resources: ["Features/\(localFramework.path)/Targets/Example/Resources/**/*",
                             "Features/\(localFramework.path)/Targets/Example/Sources/**/*.storyboard"],
@@ -100,19 +109,13 @@ extension Project {
     /// Helper function to create the application target and the unit test target.
     public static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
         let platform: Platform = platform
-        let infoPlist: [String: InfoPlist.Value] = [
-            "CFBundleShortVersionString": "1.0",
-            "CFBundleVersion": "1",
-            "UIMainStoryboardFile": "",
-            "UILaunchStoryboardName": "LaunchScreen"
-            ]
 
         let mainTarget = Target(
             name: name,
             platform: platform,
             product: .app,
             bundleId: "\(reverseOrganizationName).\(name)",
-            infoPlist: .extendingDefault(with: infoPlist),
+            infoPlist: makeAppInfoPlist(),
             sources: ["Features/\(name)/Targets/\(name)/Sources/**"],
             resources: ["Features/\(name)/Targets/\(name)/Resources/**"
             ],
