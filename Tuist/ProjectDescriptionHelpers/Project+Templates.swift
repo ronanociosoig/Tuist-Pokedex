@@ -11,12 +11,18 @@ public struct LocalFramework {
     let name: String
     let path: String
     let frameworkDependancies: [TargetDependency]
+    let exampleDependencies: [TargetDependency]
     let resources: [String]
     
-    public init(name: String, path: String, frameworkDependancies: [TargetDependency], resources: [String]) {
+    public init(name: String,
+                path: String,
+                frameworkDependancies: [TargetDependency],
+                exampleDependencies: [TargetDependency],
+                resources: [String]) {
         self.name = name
         self.path = path
         self.frameworkDependancies = frameworkDependancies
+        self.exampleDependencies = exampleDependencies
         self.resources = resources
     }
 }
@@ -55,6 +61,20 @@ extension Project {
         let frameworkPath = "Features/\(localFramework.path)/Targets/\(localFramework.name)"
         let resources = localFramework.resources
         let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(localFramework.path)/Targets/\(localFramework.name)/" + $0), tags: [])}
+        
+        var exampleAppDependancies = localFramework.exampleDependencies
+        exampleAppDependancies.append(.target(name: localFramework.name))
+        
+        let exampleAppTarget  = Target(name: "\(localFramework.name)ExampleApp",
+                platform: platform,
+                product: .app,
+                bundleId: "\(reverseOrganizationName).\(localFramework.name)ExampleApp",
+                infoPlist: .default,
+                sources: ["Features/\(localFramework.path)/Targets/Example/Sources/**"],
+                resources: ["Features/\(localFramework.path)/Targets/Example/Resources/**/*",
+                            "Features/\(localFramework.path)/Targets/Example/Sources/**/*.storyboard"],
+                dependencies: exampleAppDependancies)
+    
         let sources = Target(name: localFramework.name,
                 platform: platform,
                 product: .framework,
@@ -73,8 +93,8 @@ extension Project {
                 sources: ["\(frameworkPath)/Tests/**"],
                 resources: [],
                 dependencies: [.target(name: localFramework.name)])
-        
-        return [sources, tests]
+    
+        return [sources, tests, exampleAppTarget]
     }
 
     /// Helper function to create the application target and the unit test target.
