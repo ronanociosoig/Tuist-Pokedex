@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import PokedexCommon
+import Common
 
 protocol AppControlling {
     func start()

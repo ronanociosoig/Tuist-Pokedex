@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import PokedexCommon
+import Common
 
 struct MockDataFactory {
     static func makePokemons() -> [LocalPokemon] {

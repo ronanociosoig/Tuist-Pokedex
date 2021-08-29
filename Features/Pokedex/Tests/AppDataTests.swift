@@ -10,7 +10,7 @@
 
 import XCTest
 import Pokedex
-import PokedexCommon
+import Common
 
 //@testable import Pokedex
 

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PokedexCommon
+import Common
 
 public class BackpackViewController: UIViewController {
     var presenter: BackpackPresenting?

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import PokedexCommon
+import Common
 
 class Coordinator: Coordinating {
     let window: UIWindow

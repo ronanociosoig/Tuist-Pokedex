@@ -6,7 +6,7 @@
 //  Copyright © 2021 Sonomos. All rights reserved.
 //
 
-import PokedexCommon
+import Common
 
 protocol CatchView: AnyObject {
     func update()

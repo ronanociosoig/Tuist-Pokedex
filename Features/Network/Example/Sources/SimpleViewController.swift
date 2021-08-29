@@ -8,7 +8,7 @@
 
 import UIKit
 import NetworkKit
-import PokedexCommon
+import Common
 
 class SimpleViewController: UIViewController {
     var dataProvider: DataProvider

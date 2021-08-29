@@ -8,7 +8,7 @@
 
 import Foundation
 import SwiftUI
-import PokedexCommon
+import Common
 import BackpackUI
 
 class Coordinator: Coordinating {

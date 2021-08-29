@@ -1,5 +1,5 @@
 import UIKit
-import PokedexCommon
+import Common
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

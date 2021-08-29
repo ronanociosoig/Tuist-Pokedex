@@ -6,7 +6,7 @@
 //  Copyright © 2019 Sonomos. All rights reserved.
 //
 
-import PokedexCommon
+import Common
 
 public protocol HomeDataProvider {
 

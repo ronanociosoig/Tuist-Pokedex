@@ -8,7 +8,7 @@
 
 import UIKit
 import Haneke
-import PokedexCommon
+import Common
 
 public class CatchViewController: UIViewController {
     @IBOutlet var backgroundImageView: UIImageView!

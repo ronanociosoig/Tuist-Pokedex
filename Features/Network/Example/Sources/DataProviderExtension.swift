@@ -9,7 +9,7 @@
 import Foundation
 import NetworkKit
 import os.log
-import PokedexCommon
+import Common
 
 protocol DataSearchProviding {
     func search(identifier: Int, networkService: SearchService)

@@ -8,7 +8,7 @@
 
 import Foundation
 import JGProgressHUD
-import PokedexCommon
+import Common
 import HomeUI
 
 class Coordinator: Coordinating {

@@ -1,6 +1,6 @@
 import UIKit
 import NetworkKit
-import PokedexCommon
+import Common
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

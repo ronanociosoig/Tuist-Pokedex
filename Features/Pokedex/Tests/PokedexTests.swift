@@ -8,7 +8,7 @@
 
 import XCTest
 import NetworkKit
-import PokedexCommon
+import Common
 
 // swiftlint:disable all
 

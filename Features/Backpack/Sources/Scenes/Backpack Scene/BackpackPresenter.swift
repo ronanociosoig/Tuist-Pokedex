@@ -8,7 +8,7 @@
 
 // swiftlint:disable weak_delegate
 
-import PokedexCommon
+import Common
 
 protocol BackpackView: AnyObject {
     func setDataSource(dataSource: BackpackDataSource)

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PokedexCommon
+import Common
 
 // swiftlint:disable all
 
