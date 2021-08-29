@@ -67,9 +67,9 @@ extension Project {
 
     /// Helper function to create a framework target and an associated unit test target
     public static func makeFrameworkTargets(module: Module, platform: Platform) -> [Target] {
-        let frameworkPath = "Features/\(module.path)/Targets/\(module.name)"
+        let frameworkPath = "Features/\(module.path)"
         let resources = module.resources
-        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(module.path)/Targets/\(module.name)/" + $0), tags: [])}
+        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(module.path)/" + $0), tags: [])}
         
         var exampleAppDependancies = module.exampleDependencies
         exampleAppDependancies.append(.target(name: module.name))
@@ -79,9 +79,9 @@ extension Project {
                 product: .app,
                 bundleId: "\(reverseOrganizationName).\(module.name)ExampleApp",
                 infoPlist: makeAppInfoPlist(),
-                sources: ["Features/\(module.path)/Targets/Example/Sources/**"],
-                resources: ["Features/\(module.path)/Targets/Example/Resources/**/*",
-                            "Features/\(module.path)/Targets/Example/Sources/**/*.storyboard"],
+                sources: ["Features/\(module.path)/Example/Sources/**"],
+                resources: ["Features/\(module.path)/Example/Resources/**/*",
+                            "Features/\(module.path)/Example/Sources/**/*.storyboard"],
                 dependencies: exampleAppDependancies)
     
         let sources = Target(name: module.name,
@@ -116,8 +116,8 @@ extension Project {
             product: .app,
             bundleId: "\(reverseOrganizationName).\(name)",
             infoPlist: makeAppInfoPlist(),
-            sources: ["Features/\(name)/Targets/\(name)/Sources/**"],
-            resources: ["Features/\(name)/Targets/\(name)/Resources/**"
+            sources: ["Features/\(name)/Sources/**"],
+            resources: ["Features/\(name)/Resources/**"
             ],
             actions: [
                 TargetAction.post(path: "scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
@@ -131,9 +131,9 @@ extension Project {
             product: .unitTests,
             bundleId: "\(reverseOrganizationName).\(name)Tests",
             infoPlist: .default,
-            sources: ["Features/\(name)/Targets/\(name)/Tests/**"],
-            resources: ["Features/\(name)/Targets/\(name)/Tests/**/*.json",
-                        "Features/\(name)/Targets/\(name)/Tests/**/*.png"],
+            sources: ["Features/\(name)/Tests/**"],
+            resources: ["Features/\(name)/Tests/**/*.json",
+                        "Features/\(name)/Tests/**/*.png"],
             dependencies: [
                 .target(name: "\(name)")
         ])
@@ -144,7 +144,7 @@ extension Project {
             product: .uiTests,
             bundleId: "\(reverseOrganizationName).\(name)UITests",
             infoPlist: .default,
-            sources: ["Features/\(name)/Targets/\(name)/UITests/**"],
+            sources: ["Features/\(name)/UITests/**"],
             resources: [],
             dependencies: [
                 .target(name: "\(name)")
