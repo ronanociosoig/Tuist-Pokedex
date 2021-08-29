@@ -1,6 +1,6 @@
 #!/bin/bash 
 
-SOURCES_PATH="Features/$1/Targets/$1/Sources"
+SOURCES_PATH="Features/$1/Sources"
 
 if which swiftlint >/dev/null; then
 swiftlint --path $SOURCES_PATH --config .swiftlint.yml --quiet
