@@ -11,6 +11,12 @@ let examplePath = "Example"
 /// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
 /// See https://tuist.io/docs/usage/helpers/
 
+public enum uFeatureTarget {
+    case framework
+    case unitTests
+    case exampleApp
+}
+
 public struct Module {
     let name: String
     let path: String
@@ -18,19 +24,22 @@ public struct Module {
     let exampleDependencies: [TargetDependency]
     let frameworkResources: [String]
     let exampleResources: [String]
+    let targets: Set<uFeatureTarget>
     
     public init(name: String,
                 path: String,
                 frameworkDependancies: [TargetDependency],
                 exampleDependencies: [TargetDependency],
                 frameworkResources: [String],
-                exampleResources: [String]) {
+                exampleResources: [String],
+                targets: Set<uFeatureTarget> = Set([.framework, .unitTests, .exampleApp])) {
         self.name = name
         self.path = path
         self.frameworkDependancies = frameworkDependancies
         self.exampleDependencies = exampleDependencies
         self.frameworkResources = frameworkResources
         self.exampleResources = exampleResources
+        self.targets = targets
     }
 }
 
@@ -85,35 +94,43 @@ extension Project {
         
         let exampleSourcesPath = "\(featuresPath)/\(module.path)/\(examplePath)/Sources"
         
-        let exampleAppTarget  = Target(name: "\(module.name)\(exampleAppSuffix)",
-                platform: platform,
-                product: .app,
-                bundleId: "\(reverseOrganizationName).\(module.name)\(exampleAppSuffix)",
-                infoPlist: makeAppInfoPlist(),
-                sources: ["\(exampleSourcesPath)/**"],
-                resources: ResourceFileElements(resources: exampleResourceFilePaths),
-                dependencies: exampleAppDependancies)
-    
-        let sources = Target(name: module.name,
-                platform: platform,
-                product: .framework,
-                bundleId: "\(reverseOrganizationName).\(module.name)",
-                infoPlist: .default,
-                sources: ["\(frameworkPath)/Sources/**"],
-                resources: ResourceFileElements(resources: frameworkResourceFilePaths),
-                headers: Headers(public: ["\(frameworkPath)/Sources/**/*.h"]),
-                dependencies: module.frameworkDependancies)
+        var targets = [Target]()
         
-        let tests = Target(name: "\(module.name)Tests",
-                platform: platform,
-                product: .unitTests,
-                bundleId: "\(reverseOrganizationName).\(module.name)Tests",
-                infoPlist: .default,
-                sources: ["\(frameworkPath)/Tests/**"],
-                resources: [],
-                dependencies: [.target(name: module.name)])
+        if module.targets.contains(.exampleApp) {
+            targets.append(Target(name: "\(module.name)\(exampleAppSuffix)",
+                    platform: platform,
+                    product: .app,
+                    bundleId: "\(reverseOrganizationName).\(module.name)\(exampleAppSuffix)",
+                    infoPlist: makeAppInfoPlist(),
+                    sources: ["\(exampleSourcesPath)/**"],
+                    resources: ResourceFileElements(resources: exampleResourceFilePaths),
+                    dependencies: exampleAppDependancies))
+        }
     
-        return [sources, tests, exampleAppTarget]
+        if module.targets.contains(.framework) {
+            targets.append(Target(name: module.name,
+                    platform: platform,
+                    product: .framework,
+                    bundleId: "\(reverseOrganizationName).\(module.name)",
+                    infoPlist: .default,
+                    sources: ["\(frameworkPath)/Sources/**"],
+                    resources: ResourceFileElements(resources: frameworkResourceFilePaths),
+                    headers: Headers(public: ["\(frameworkPath)/Sources/**/*.h"]),
+                    dependencies: module.frameworkDependancies))
+        }
+
+        if module.targets.contains(.unitTests) {
+            targets.append(Target(name: "\(module.name)Tests",
+                    platform: platform,
+                    product: .unitTests,
+                    bundleId: "\(reverseOrganizationName).\(module.name)Tests",
+                    infoPlist: .default,
+                    sources: ["\(frameworkPath)/Tests/**"],
+                    resources: [],
+                    dependencies: [.target(name: module.name)]))
+        }
+
+        return targets
     }
 
     /// Helper function to create the application target and the unit test target.
