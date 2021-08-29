@@ -7,7 +7,7 @@ let reverseOrganizationName = "com.sonomos"
 /// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
 /// See https://tuist.io/docs/usage/helpers/
 
-public struct LocalFramework {
+public struct Module {
     let name: String
     let path: String
     let frameworkDependancies: [TargetDependency]
@@ -33,17 +33,17 @@ extension Project {
                            platform: Platform,
                            packages: [Package],
                            targetDependancies: [TargetDependency],
-                           additionalTargets: [LocalFramework]) -> Project {
+                           moduleTargets: [Module]) -> Project {
         
         let organizationName = "Sonomos.com"
-        var dependencies = additionalTargets.map { TargetDependency.target(name: $0.name) }
+        var dependencies = moduleTargets.map { TargetDependency.target(name: $0.name) }
         dependencies.append(contentsOf: targetDependancies)
         
         var targets = makeAppTargets(name: name,
                                      platform: platform,
                                      dependencies: dependencies)
         
-        targets += additionalTargets.flatMap({ makeFrameworkTargets(localFramework: $0, platform: platform) })
+        targets += moduleTargets.flatMap({ makeFrameworkTargets(module: $0, platform: platform) })
         
         let schemes = makeSchemes(targetName: name)
         
@@ -66,42 +66,42 @@ extension Project {
     }
 
     /// Helper function to create a framework target and an associated unit test target
-    public static func makeFrameworkTargets(localFramework: LocalFramework, platform: Platform) -> [Target] {
-        let frameworkPath = "Features/\(localFramework.path)/Targets/\(localFramework.name)"
-        let resources = localFramework.resources
-        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(localFramework.path)/Targets/\(localFramework.name)/" + $0), tags: [])}
+    public static func makeFrameworkTargets(module: Module, platform: Platform) -> [Target] {
+        let frameworkPath = "Features/\(module.path)/Targets/\(module.name)"
+        let resources = module.resources
+        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(module.path)/Targets/\(module.name)/" + $0), tags: [])}
         
-        var exampleAppDependancies = localFramework.exampleDependencies
-        exampleAppDependancies.append(.target(name: localFramework.name))
+        var exampleAppDependancies = module.exampleDependencies
+        exampleAppDependancies.append(.target(name: module.name))
         
-        let exampleAppTarget  = Target(name: "\(localFramework.name)ExampleApp",
+        let exampleAppTarget  = Target(name: "\(module.name)ExampleApp",
                 platform: platform,
                 product: .app,
-                bundleId: "\(reverseOrganizationName).\(localFramework.name)ExampleApp",
+                bundleId: "\(reverseOrganizationName).\(module.name)ExampleApp",
                 infoPlist: makeAppInfoPlist(),
-                sources: ["Features/\(localFramework.path)/Targets/Example/Sources/**"],
-                resources: ["Features/\(localFramework.path)/Targets/Example/Resources/**/*",
-                            "Features/\(localFramework.path)/Targets/Example/Sources/**/*.storyboard"],
+                sources: ["Features/\(module.path)/Targets/Example/Sources/**"],
+                resources: ["Features/\(module.path)/Targets/Example/Resources/**/*",
+                            "Features/\(module.path)/Targets/Example/Sources/**/*.storyboard"],
                 dependencies: exampleAppDependancies)
     
-        let sources = Target(name: localFramework.name,
+        let sources = Target(name: module.name,
                 platform: platform,
                 product: .framework,
-                bundleId: "\(reverseOrganizationName).\(localFramework.name)",
+                bundleId: "\(reverseOrganizationName).\(module.name)",
                 infoPlist: .default,
                 sources: ["\(frameworkPath)/Sources/**"],
                 resources: ResourceFileElements(resources: resourceFilePaths),
                 headers: Headers(public: ["\(frameworkPath)/Sources/**/*.h"]),
-                dependencies: localFramework.frameworkDependancies)
+                dependencies: module.frameworkDependancies)
         
-        let tests = Target(name: "\(localFramework.name)Tests",
+        let tests = Target(name: "\(module.name)Tests",
                 platform: platform,
                 product: .unitTests,
-                bundleId: "\(reverseOrganizationName).\(localFramework.name)Tests",
+                bundleId: "\(reverseOrganizationName).\(module.name)Tests",
                 infoPlist: .default,
                 sources: ["\(frameworkPath)/Tests/**"],
                 resources: [],
-                dependencies: [.target(name: localFramework.name)])
+                dependencies: [.target(name: module.name)])
     
         return [sources, tests, exampleAppTarget]
     }
