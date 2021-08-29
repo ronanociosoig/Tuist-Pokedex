@@ -2,6 +2,10 @@ import ProjectDescription
 
 let reverseOrganizationName = "com.sonomos"
 
+let featuresPath = "Features"
+let exampleAppSuffix = "ExampleApp"
+let examplePath = "Example"
+
 /// Project helpers are functions that simplify the way you define your project.
 /// Share code to create targets, settings, dependencies,
 /// Create your own conventions, e.g: a func that makes sure all shared targets are "static frameworks"
@@ -12,18 +16,21 @@ public struct Module {
     let path: String
     let frameworkDependancies: [TargetDependency]
     let exampleDependencies: [TargetDependency]
-    let resources: [String]
+    let frameworkResources: [String]
+    let exampleResources: [String]
     
     public init(name: String,
                 path: String,
                 frameworkDependancies: [TargetDependency],
                 exampleDependencies: [TargetDependency],
-                resources: [String]) {
+                frameworkResources: [String],
+                exampleResources: [String]) {
         self.name = name
         self.path = path
         self.frameworkDependancies = frameworkDependancies
         self.exampleDependencies = exampleDependencies
-        self.resources = resources
+        self.frameworkResources = frameworkResources
+        self.exampleResources = exampleResources
     }
 }
 
@@ -67,21 +74,24 @@ extension Project {
 
     /// Helper function to create a framework target and an associated unit test target
     public static func makeFrameworkTargets(module: Module, platform: Platform) -> [Target] {
-        let frameworkPath = "Features/\(module.path)"
-        let resources = module.resources
-        let resourceFilePaths = resources.map { ResourceFileElement.glob(pattern: Path("Features/\(module.path)/" + $0), tags: [])}
+        let frameworkPath = "\(featuresPath)/\(module.path)"
+        
+        let frameworkResourceFilePaths = module.frameworkResources.map { ResourceFileElement.glob(pattern: Path("\(featuresPath)/\(module.path)/" + $0), tags: [])}
+        
+        let exampleResourceFilePaths = module.exampleResources.map { ResourceFileElement.glob(pattern: Path("\(featuresPath)/\(module.path)/\(examplePath)/" + $0), tags: [])}
         
         var exampleAppDependancies = module.exampleDependencies
         exampleAppDependancies.append(.target(name: module.name))
         
-        let exampleAppTarget  = Target(name: "\(module.name)ExampleApp",
+        let exampleSourcesPath = "\(featuresPath)/\(module.path)/\(examplePath)/Sources"
+        
+        let exampleAppTarget  = Target(name: "\(module.name)\(exampleAppSuffix)",
                 platform: platform,
                 product: .app,
-                bundleId: "\(reverseOrganizationName).\(module.name)ExampleApp",
+                bundleId: "\(reverseOrganizationName).\(module.name)\(exampleAppSuffix)",
                 infoPlist: makeAppInfoPlist(),
-                sources: ["Features/\(module.path)/Example/Sources/**"],
-                resources: ["Features/\(module.path)/Example/Resources/**/*",
-                            "Features/\(module.path)/Example/Sources/**/*.storyboard"],
+                sources: ["\(exampleSourcesPath)/**"],
+                resources: ResourceFileElements(resources: exampleResourceFilePaths),
                 dependencies: exampleAppDependancies)
     
         let sources = Target(name: module.name,
@@ -90,7 +100,7 @@ extension Project {
                 bundleId: "\(reverseOrganizationName).\(module.name)",
                 infoPlist: .default,
                 sources: ["\(frameworkPath)/Sources/**"],
-                resources: ResourceFileElements(resources: resourceFilePaths),
+                resources: ResourceFileElements(resources: frameworkResourceFilePaths),
                 headers: Headers(public: ["\(frameworkPath)/Sources/**/*.h"]),
                 dependencies: module.frameworkDependancies)
         
@@ -109,6 +119,7 @@ extension Project {
     /// Helper function to create the application target and the unit test target.
     public static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
         let platform: Platform = platform
+        
 
         let mainTarget = Target(
             name: name,
@@ -116,8 +127,8 @@ extension Project {
             product: .app,
             bundleId: "\(reverseOrganizationName).\(name)",
             infoPlist: makeAppInfoPlist(),
-            sources: ["Features/\(name)/Sources/**"],
-            resources: ["Features/\(name)/Resources/**"
+            sources: ["\(featuresPath)/\(name)/Sources/**"],
+            resources: ["\(featuresPath)/\(name)/Resources/**"
             ],
             actions: [
                 TargetAction.post(path: "scripts/swiftlint.sh", arguments: ["$TARGETNAME"], name: "SwiftLint")
@@ -131,9 +142,9 @@ extension Project {
             product: .unitTests,
             bundleId: "\(reverseOrganizationName).\(name)Tests",
             infoPlist: .default,
-            sources: ["Features/\(name)/Tests/**"],
-            resources: ["Features/\(name)/Tests/**/*.json",
-                        "Features/\(name)/Tests/**/*.png"],
+            sources: ["\(featuresPath)/\(name)/Tests/**"],
+            resources: ["\(featuresPath)/\(name)/Tests/**/*.json",
+                        "\(featuresPath)/\(name)/Tests/**/*.png"],
             dependencies: [
                 .target(name: "\(name)")
         ])
@@ -144,7 +155,7 @@ extension Project {
             product: .uiTests,
             bundleId: "\(reverseOrganizationName).\(name)UITests",
             infoPlist: .default,
-            sources: ["Features/\(name)/UITests/**"],
+            sources: ["\(featuresPath)/\(name)/UITests/**"],
             resources: [],
             dependencies: [
                 .target(name: "\(name)")
