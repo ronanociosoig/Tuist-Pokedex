@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 import Common
 import BackpackUI
+import Detail
 
 class Coordinator: Coordinating {
     let window: UIWindow

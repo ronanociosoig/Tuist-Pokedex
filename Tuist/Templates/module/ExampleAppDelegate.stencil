@@ -1,0 +1,22 @@
+//
+//  AppDelegate.swift
+//  {{ name }}Example
+//
+//  Created by {{ author }} on {{ date }}.
+//  Copyright © {{ year }} {{ company }}. All rights reserved.
+//
+
+import UIKit
+
+@UIApplicationMain
+class AppDelegate: NSObject, UIApplicationDelegate {
+
+    private let appController = AppController()
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        appController.start()
+        
+        return true
+    }
+}
