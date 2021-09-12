@@ -49,11 +49,11 @@ An AppData class is used to maintain global state across screens, with the data 
 
 ## Tuist
 
-This repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.31. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
+This repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.48.1. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
 
 ## Modular Approach
 
-The network code is separated into its own project, and has an example app to validate it. The Haneke image library is also part of the repo as a separate project and linked in the Project.swift manifest. 
+The project is defined in modules, with one for each scene, and others for the network code, and the Haneke image library. Each module has an example app except for the Common module. See the Project.swift manifest. 
 
 ## Implementation 
 
