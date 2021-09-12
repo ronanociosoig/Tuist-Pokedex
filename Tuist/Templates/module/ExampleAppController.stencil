@@ -1,0 +1,35 @@
+//
+//  AppController.swift
+//  {{ name }}Example
+//
+//  Created by {{ author }} on {{ date }}.
+//  Copyright © {{ year }} {{ company }}. All rights reserved.
+//
+
+import Foundation
+import Common
+
+protocol AppControlling {
+    func start()
+}
+
+class AppController: AppControlling {
+    var coordinator: Coordinating?
+
+    func start() {
+        let dataProvider = DataProvider()
+
+        if Configuration.uiTesting == true {
+            let storage = FileStorage()
+            storage.remove(AppData.pokemonFile, from: dataProvider.appData.directory())
+        }
+
+        dataProvider.start()
+
+        coordinator = Coordinator()
+        coordinator?.dataProvider = dataProvider
+        coordinator?.start()
+
+        dataProvider.notifier = coordinator as? Notifier
+    }
+}
