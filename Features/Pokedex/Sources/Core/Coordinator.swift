@@ -13,6 +13,7 @@ import NetworkKit
 import BackpackUI
 import CatchUI
 import HomeUI
+import Detail
 
 class Coordinator: Coordinating {
     let window: UIWindow
