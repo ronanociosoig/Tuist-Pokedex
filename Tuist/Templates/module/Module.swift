@@ -44,7 +44,15 @@ let template = Template(
             templatePath: "Tests.stencil"
         ),
         
-        // Example App
+        // Example App Icons and Launch Screen
+        .directory(
+            path: "\(nameAttribute)/Example",
+            sourcePath: "Resources"
+        ),
+        .file(
+            path: "\(nameAttribute)/Example/Resources/LaunchScreen.storyboard",
+            templatePath: "LaunchScreen.stencil"
+        ),
         .file(
             path: "\(nameAttribute)/Example/Sources/AppController.swift",
             templatePath: "ExampleAppController.stencil"
@@ -56,17 +64,6 @@ let template = Template(
         .file(
             path: "\(nameAttribute)/Example/Sources/Coordinator.swift",
             templatePath: "ExampleCoordinator.stencil"
-        ),
-        
-        // Example App Icons and Launch Screen
-        .directory(
-            path: "\(nameAttribute)/Example",
-            sourcePath: "Resources"
-        ),
-        
-        .file(
-            path: "\(nameAttribute)/Example/Resources/LaunchScreen.storyboard",
-            templatePath: "Resources/Base.lproj/LaunchScreen.stencil"
-        ),
+        )
     ]
 )
