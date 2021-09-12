@@ -30,7 +30,12 @@ class Coordinator: Coordinating {
     }
 
     func showHomeScene() {
-        let viewController = DetailViewController()
+        guard let dataProvider = dataProvider else { return }
+        let viewController = PokemonDetailWireframe.makeViewController()
+        let pokemon = dataProvider.appData.pokemons.first
+        
+        PokemonDetailWireframe.prepare(viewController, pokemon: pokemon!)
+        
         window.rootViewController = viewController
     }
 
