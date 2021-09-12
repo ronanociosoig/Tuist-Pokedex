@@ -25,11 +25,13 @@ class AppController: AppControlling {
         }
 
         dataProvider.start()
+        dataProvider.notifier = coordinator as? Notifier
+        dataProvider.appData.pokemons = MockDataFactory.makePokemons()
 
         coordinator = Coordinator()
         coordinator?.dataProvider = dataProvider
         coordinator?.start()
 
-        dataProvider.notifier = coordinator as? Notifier
+        
     }
 }
