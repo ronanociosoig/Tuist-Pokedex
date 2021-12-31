@@ -125,9 +125,8 @@
     
     const CGRect contentRect = [self contentRectForBounds:bounds];
     // Ideally we would use imageRectForContentRect: but it requires the image to be set to work
-    const UIEdgeInsets imageInsets = self.imageEdgeInsets;
     const CGSize contentSize = contentRect.size;
-    const CGSize imageSize = CGSizeMake(contentSize.width - imageInsets.left - imageInsets.right, contentSize.height - imageInsets.top - imageInsets.bottom);
+    const CGSize imageSize = CGSizeMake(contentSize.width, contentSize.height);
     
     const HNKScaleMode scaleMode = self.contentHorizontalAlignment != UIControlContentHorizontalAlignmentFill || self.contentVerticalAlignment != UIControlContentVerticalAlignmentFill ? HNKScaleModeAspectFit : HNKScaleModeFill;
     
