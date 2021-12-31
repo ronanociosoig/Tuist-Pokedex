@@ -33,12 +33,12 @@ Tapping on the lower button opens the Backpack scene, which displays all the cau
 
 ## Tuist
 
-Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.52. It is not compatible with Tuist 2.x. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
+Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) version 1.52. It is not compatible with Tuist 2.x. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
 
 ## Modular Approach
 										     
 The project follows the micro-feature modular architectual pattern promoted by the Tuist team ([see here](https://docs.tuist.io/building-at-scale/microfeatures))							     
-Each scene is definded as a separate feature module (Home, Catch, Backpack and Detail), along with a Common, Network, Haneke image library, and the main application. The project can focus on any one, or a combination of these modules, the testing target, or the example application that validates each module. 
+Each scene is definded as a separate feature module (Home, Catch, Backpack and Detail), along with additional modules for Common, Network, Haneke image library, and the main application. The project can focus on any one, or a combination of these modules, the testing target, or the example application that validates each module. 
 
 Run `tuist edit` and view the Project.swift manifest to see the structure and how dependencies are defined and linked.
 
