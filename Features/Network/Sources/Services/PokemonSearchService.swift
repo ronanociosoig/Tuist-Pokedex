@@ -7,62 +7,50 @@
 //
 
 import Foundation
-
-import Moya
-import Result
-
-public protocol PokemonSearchLoadingService: AnyObject {
-    var provider: MoyaProvider<PokemonSearchEndpoint> { get }
-}
+import Combine
 
 public protocol SearchService: AnyObject {
-    func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void)
+    func search(identifier: Int) -> AnyPublisher<Data, Error>
 }
 
-public class PokemonSearchService: SearchService, PokemonSearchLoadingService {
-    // swiftlint:disable force_unwrapping
-    let customEndpointClosure = { (target: PokemonSearchEndpoint) -> Endpoint in
-        return Endpoint(url: URL(target: target).absoluteString,
-                        sampleResponseClosure: { .networkResponse(401, "Not authorized".data(using: .utf8)!) },
-                        method: target.method,
-                        task: target.task,
-                        httpHeaderFields: target.headers)
-    }
+public class PokemonSearchService: SearchService {
     
     public init() {
         
     }
     
-    public var provider: MoyaProvider<PokemonSearchEndpoint> {
-        
-        if Configuration.authenticationErrorTesting {
-            return MoyaProvider<PokemonSearchEndpoint>(endpointClosure: customEndpointClosure, stubClosure: MoyaProvider.immediatelyStub)
-        } else if Configuration.uiTesting == true {
-            return MoyaProvider<PokemonSearchEndpoint>(stubClosure: MoyaProvider.immediatelyStub)
-        } else if Configuration.networkTesting {
-            return MoyaProvider<PokemonSearchEndpoint>(plugins: [NetworkLoggerPlugin()])
-        } else {
-            return MoyaProvider<PokemonSearchEndpoint>(callbackQueue: DispatchQueue.global(qos: .background))
-        }
+    public func search(identifier: Int) -> AnyPublisher<Data, Error> {
+        let endpoint = PokemonSearchEndpoint.search(identifier: identifier)
+        return performRequest(urlRequest: endpoint.makeURLRequest())
     }
     
-    public func search(identifier: Int, completion: @escaping (_ data: Data?, _ error: String?) -> Void) {
-        provider.request(.search(identifier: identifier)) { result in
-            switch result {
-            case .success(let response):
-                if response.statusCode == 404 {
-                    completion(nil, Constants.Translations.Error.statusCode404)
-                    return
+    public func performRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw HTTPError.invalidResponse
                 }
-                
-                if 200 ..< 300 ~= response.statusCode {
-                    completion(response.data, nil)
-                } else {
-                    completion(nil, "Error: \(response.statusCode)")
+                guard (200 ..< 300).contains(httpResponse.statusCode) else {
+                    throw HTTPError.invalidResponse
                 }
-            case .failure(let error):
-                completion(nil, error.localizedDescription)
+                return data
             }
+            .eraseToAnyPublisher()
+    }
+}
+
+public enum HTTPError: Equatable {
+    case statusCode(Int)
+    case invalidResponse
+}
+
+extension HTTPError: LocalizedError {
+    public var errorDescription: String? {
+        switch self {
+        case .invalidResponse:
+            return NSLocalizedString("Error: 401", comment: "401")
+        case .statusCode(let int):
+            return String(int)
         }
     }
 }
