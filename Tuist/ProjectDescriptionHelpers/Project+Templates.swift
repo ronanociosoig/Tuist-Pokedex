@@ -24,6 +24,7 @@ public struct Module {
     let exampleDependencies: [TargetDependency]
     let frameworkResources: [String]
     let exampleResources: [String]
+    let testResources: [String]
     let targets: Set<uFeatureTarget>
     
     public init(name: String,
@@ -32,6 +33,7 @@ public struct Module {
                 exampleDependencies: [TargetDependency],
                 frameworkResources: [String],
                 exampleResources: [String],
+                testResources: [String],
                 targets: Set<uFeatureTarget> = Set([.framework, .unitTests, .exampleApp])) {
         self.name = name
         self.path = path
@@ -39,6 +41,7 @@ public struct Module {
         self.exampleDependencies = exampleDependencies
         self.frameworkResources = frameworkResources
         self.exampleResources = exampleResources
+        self.testResources = testResources
         self.targets = targets
     }
 }
@@ -89,6 +92,8 @@ extension Project {
         
         let exampleResourceFilePaths = module.exampleResources.map { ResourceFileElement.glob(pattern: Path("\(featuresPath)/\(module.path)/\(examplePath)/" + $0), tags: [])}
         
+        let testResourceFilePaths = module.testResources.map { ResourceFileElement.glob(pattern: Path("\(featuresPath)/\(module.path)/Tests/" + $0), tags: [])}
+        
         var exampleAppDependancies = module.exampleDependencies
         exampleAppDependancies.append(.target(name: module.name))
         
@@ -126,7 +131,7 @@ extension Project {
                     bundleId: "\(reverseOrganizationName).\(module.name)Tests",
                     infoPlist: .default,
                     sources: ["\(frameworkPath)/Tests/**"],
-                    resources: [],
+                    resources: ResourceFileElements(resources: testResourceFilePaths),
                     dependencies: [.target(name: module.name)]))
         }
 
@@ -135,8 +140,6 @@ extension Project {
 
     /// Helper function to create the application target and the unit test target.
     public static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
-        let platform: Platform = platform
-        
 
         let mainTarget = Target(
             name: name,

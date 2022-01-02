@@ -14,9 +14,10 @@ public protocol SearchService: AnyObject {
 }
 
 public class PokemonSearchService: SearchService {
+    let session: URLSession
     
-    public init() {
-        
+    public init(session: URLSession = URLSession.shared) {
+        self.session = session
     }
     
     public func search(identifier: Int) -> AnyPublisher<Data, Error> {

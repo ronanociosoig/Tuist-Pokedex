@@ -7,8 +7,8 @@
 //
 
 import XCTest
-import NetworkKit
 import Combine
+import NetworkKit
 
 // swiftlint:disable all
 
@@ -17,10 +17,22 @@ class NetworkKitTests: XCTestCase {
     
     func testEndpointReturnsData() {
         let expectation = self.expectation(description: "No results in response data")
-        
-        let searchService = PokemonSearchService()
+        let pokemonIdentifier = 1
+        let endpoint = PokemonSearchEndpoint.search(identifier: pokemonIdentifier)
+        let url = endpoint.makeURL()
+        let data = try! MockData.loadResponse()!
+        URLProtocolMock.testURLs = [url: data]
 
-        searchService.search(identifier: 1)
+        // now set up a configuration to use our mock
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolMock.self]
+
+        // and create the URLSession from that
+        let session = URLSession(configuration: config)
+        
+        let searchService = PokemonSearchService(session: session)
+
+        searchService.search(identifier: pokemonIdentifier)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
@@ -38,6 +50,7 @@ class NetworkKitTests: XCTestCase {
             })
             .store(in: &cancellables)
         
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 6, handler: nil)
     }
 }
+
