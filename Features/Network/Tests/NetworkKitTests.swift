@@ -52,5 +52,44 @@ class NetworkKitTests: XCTestCase {
         
         waitForExpectations(timeout: 6, handler: nil)
     }
-}
+    
+    func testEndpointReturns401Error() {
+        let expectation = self.expectation(description: "No results in response data")
+        let pokemonIdentifier = 900
+        let endpoint = PokemonSearchEndpoint.search(identifier: pokemonIdentifier)
+        let url = endpoint.makeURL()
+        
+        URLProtocolMock.testURLs = [url: Data("".utf8)]
 
+        // now set up a configuration to use our mock
+        let config = URLSessionConfiguration.ephemeral
+        config.protocolClasses = [URLProtocolMock.self]
+
+        // and create the URLSession from that
+        let session = URLSession(configuration: config)
+        
+        let searchService = PokemonSearchService(session: session)
+
+        searchService.search(identifier: pokemonIdentifier)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    if let httpError = error as? HTTPError {
+                        if httpError == HTTPError.invalidResponse {
+                            expectation.fulfill()
+                        } else {
+                            XCTFail("Should return HTTPError.invalidResponse")
+                        }
+                    }
+                case .finished:
+                    XCTFail("Should return HTTPError.invalidResponse")
+                }
+            }, receiveValue: { data in
+                let response = String(data: data, encoding: .utf8)
+                print("Response:\(String(describing: response))")
+            })
+            .store(in: &cancellables)
+        
+        waitForExpectations(timeout: 6, handler: nil)
+    }
+}
