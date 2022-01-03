@@ -11,17 +11,12 @@
 import XCTest
 
 class CommonTests: XCTestCase {
-    override func setUpWithError() throws {
-        super.setUp()
-    }
-
-    override func tearDownWithError() throws {
-        super.tearDown()
-    }
-
-    func testPokedexCommon() {
+    func testNextIdentifierGenerator() {
         // Given
+        
         // When
+        let identifier = Generator.nextIdentifier()
         // Then
+        XCTAssertTrue(identifier < Constants.PokemonAPI.maxIdentifier)
     }
 }
