@@ -1,16 +1,16 @@
 //
-//  PokedexCommonUnitTests.swift
-//  PokedexCommonExample
+//  CommonUnitTests.swift
+//  CommonTests
 //
-//  Created by .
+//  Created by Ronan.
 //  Copyright © 2021. All rights reserved.
 //
 
-@testable import PokedexCommon
+@testable import Common
 
 import XCTest
 
-class PokedexCommonTests: XCTestCase {
+class CommonTests: XCTestCase {
     override func setUpWithError() throws {
         super.setUp()
     }

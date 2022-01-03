@@ -1,6 +1,6 @@
 //
 //  DataProviding.swift
-//  PokedexCommon
+//  Common
 //
 //  Created by Ronan O Ciosig on 5/6/21.
 //  Copyright © 2021 Sonomos. All rights reserved.
