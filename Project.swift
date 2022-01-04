@@ -36,8 +36,7 @@ func makeHomeModule() -> Module {
                   path: "Home",
                   frameworkDependancies: [.target(name: "Common")],
                   exampleDependencies: [.package(product: "JGProgressHUD")],
-                  frameworkResources: ["Sources/**/*.storyboard",
-                                       "Resources/**"],
+                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
                   exampleResources: ["Resources/**"],
                   testResources: [])
 }
@@ -45,21 +44,17 @@ func makeHomeModule() -> Module {
 func makeBackpackModule() -> Module {
     return Module(name: "BackpackUI",
            path: "Backpack",
-           frameworkDependancies: [.target(name: "Common"),
-                                   .target(name: "Haneke")],
+           frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
            exampleDependencies: [.target(name: "Detail")],
-           frameworkResources: ["Sources/**/*.xib",
-                                "Sources/**/*.storyboard"],
-           exampleResources: ["Resources/**",
-                              "Sources/**/*.storyboard"],
+           frameworkResources: ["Sources/**/*.xib", "Sources/**/*.storyboard"],
+           exampleResources: ["Resources/**", "Sources/**/*.storyboard"],
                   testResources: [])
 }
 
 func makeDetailModule() -> Module {
     return Module(name: "Detail",
                   path: "Detail",
-                  frameworkDependancies: [.target(name: "Common"),
-                                          .target(name: "Haneke")],
+                  frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
                   exampleDependencies: [],
                   frameworkResources: ["Sources/**/*.storyboard"],
                   exampleResources: ["Resources/**"],
@@ -69,14 +64,10 @@ func makeDetailModule() -> Module {
 func makeCatchModule() -> Module {
     Module(name: "CatchUI",
            path: "Catch",
-           frameworkDependancies: [.target(name: "Common"),
-                                   .target(name: "Haneke")],
-           exampleDependencies: [.package(product: "JGProgressHUD"),
-                                 .target(name: "NetworkKit")],
-           frameworkResources: ["Resources/**",
-                                "Sources/**/*.storyboard"],
-           exampleResources: ["Resources/**",
-                              "Sources/**/*.storyboard"],
+           frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
+           exampleDependencies: [.package(product: "JGProgressHUD"), .target(name: "NetworkKit")],
+           frameworkResources: ["Resources/**", "Sources/**/*.storyboard"],
+           exampleResources: ["Resources/**", "Sources/**/*.storyboard"],
            testResources: [])
 }
 
