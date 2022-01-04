@@ -28,7 +28,7 @@ let template = Template(
         yearAttribute,
         dateAttribute,
         companyAttribute,
-        .optional("platform", default: "ios"),
+        .optional("platform", default: "ios")
     ],
     files: [
         

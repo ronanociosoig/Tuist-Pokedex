@@ -11,10 +11,12 @@ import Foundation
 struct MockSessionFactory {
     static func make(url: URL, data: Data, statusCode: Int) -> URLSession {
         
-        let response = HTTPURLResponse(url: url,
+        guard let response = HTTPURLResponse(url: url,
                                        statusCode: statusCode,
                                        httpVersion: nil,
-                                       headerFields: nil)!
+                                       headerFields: nil) else {
+            return URLSession.shared   
+        }
         
         let mockResponse = MockResponse(response: response, url: url, data: data)
 

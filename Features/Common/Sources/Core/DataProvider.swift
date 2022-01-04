@@ -15,7 +15,7 @@ public class DataProvider: DataProviding {
     public var notifier: Notifier?
     public var searchCancellable: AnyCancellable?
 
-    public init(){
+    public init() {
         
     }
     
