@@ -200,7 +200,7 @@ extension Project {
                                     codeCoverageTargets: codeCoverageTargets)
 
         let networkTestingScheme = Scheme(
-            name: "\(targetName) Network Testing",
+            name: "\(targetName)NetworkTesting",
             shared: false,
             buildAction: buildAction,
             runAction: RunAction(configurationName: debugConfiguration,
@@ -209,7 +209,7 @@ extension Project {
         )
         
         let uiTestingScheme = Scheme(
-            name: "\(targetName) UITesting",
+            name: "\(targetName)UITesting",
             shared: false,
             buildAction: buildAction,
             testAction: testAction,
