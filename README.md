@@ -15,7 +15,7 @@
 [![Tuist badge](https://img.shields.io/badge/Powered%20by-Tuist-blue)](https://tuist.io) 
 
 
-This simple iOS app is a Swift code example to demonstrate an approach used to fetch data from an [API](https://pokeapi.co), parse the response, display some of the data, store it locally, and retrieve it. The aim was to keep this as simple as possible but follow best practices and standard design patterns. 
+This simple iOS app is a Swift code example to demonstrate a micro-feature approach to modularisation based on Tuist, that fetches data from an [API](https://pokeapi.co), parses the response, displays some of the data, stores it locally, and can retrieve it. The initial aim was to keep this as simple as possible but follow best practices and standard design patterns. 
 
 It consists of 4 scenes: <br>
 	- Home Scene <br>
@@ -30,6 +30,17 @@ On tapping the first button, it will make a call to the API, and depending on th
 Choosing to catch the Pokemon will dismiss the screen, store the data to the file system, and return to the Home scene. 
 
 Tapping on the lower button opens the Backpack scene, which displays all the caught Pokemons in a grid. Tapping on a Pokemon opens the Detail Scene and it provides more details in terms of properties and the date and time it was caught.
+
+## Tuist
+
+Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) version 1.52. It is not compatible with Tuist 2.x. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
+
+## Modular Approach
+										     
+The project follows the micro-feature modular architectual pattern promoted by the Tuist team ([see here](https://docs.tuist.io/building-at-scale/microfeatures))							     
+Each scene is definded as a separate feature module (Home, Catch, Backpack and Detail), along with additional modules for Common, Network, Haneke image library, and the main application. The project can focus on any one, or a combination of these modules, the testing target, or the example application that validates each module. 
+
+Run `tuist edit` and view the Project.swift manifest to see the structure and how dependencies are defined and linked.
 
 ## Architecture 
 
@@ -46,14 +57,6 @@ A wireframe structure is used to manage the dependency injection in the view con
 The data provider class acts as a data access layer, which has extensions defined by protocols for each screen and the music player. This ensures that access to functions are restricted, and it facilitates unit and integration testing by mocking the data layer. It initiates calls to a networking service and receives a response.
 
 An AppData class is used to maintain global state across screens, with the data provider controling its access. View controllers have read-only access, and data must be updated via actions. This is a form of uni-directional data flow that helps prevent inconsistencies in the screens and the data presented. 
-
-## Tuist
-
-This repo requires the prior installation of [tuist.io](https://tuist.io) veriosn 1.31. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/)
-
-## Modular Approach
-
-The network code is separated into its own project, and has an example app to validate it. The Haneke image library is also part of the repo as a separate project and linked in the Project.swift manifest. 
 
 ## Implementation 
 
