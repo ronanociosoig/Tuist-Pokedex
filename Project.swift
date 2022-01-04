@@ -7,8 +7,6 @@ import ProjectDescriptionHelpers
 let project = Project.app(name: "Pokedex",
                           platform: .iOS,
                           packages: [
-                            .package(url: "https://github.com/Moya/Moya.git", .exact("15.0.0")),
-                            .package(url: "https://github.com/antitypical/Result.git", from: "5.0.0"),
                             .package(url: "https://github.com/JonasGessner/JGProgressHUD", .upToNextMajor(from: "2.0.0"))
                           ],
                           targetDependancies: [
@@ -85,10 +83,7 @@ func makeCommonModule() -> Module {
 func makeNetworkModule() -> Module {
     return Module(name: "NetworkKit",
                   path: "Network",
-                  frameworkDependancies: [
-                    .package(product: "Moya"),
-                    .package(product: "Result")
-                  ],
+                  frameworkDependancies: [],
                   exampleDependencies: [.target(name: "Common")],
                   frameworkResources: ["Resources/**"],
                   exampleResources: ["Resources/**"],
