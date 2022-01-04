@@ -2,8 +2,8 @@
 //  PokemonSearchEndpoint+FactoryMethods.swift
 //  NetworkKit
 //
-//  Created by ronan.ociosoig on 01/01/2022.
-//  Copyright © 2022 Sonomos.com. All rights reserved.
+//  Created by Ronan on 01/01/2022.
+//  Copyright © 2022 Sonomos. All rights reserved.
 //
 
 import Foundation

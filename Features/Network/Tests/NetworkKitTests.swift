@@ -18,18 +18,14 @@ class NetworkKitTests: XCTestCase {
     func testEndpointReturnsData() {
         let expectation = self.expectation(description: "No results in response data")
         let pokemonIdentifier = 1
+        
+        // Define the URL and mock data in a dictionary property of the protocol mock
         let endpoint = PokemonSearchEndpoint.search(identifier: pokemonIdentifier)
         let url = endpoint.makeURL()
         let data = try! MockData.loadResponse()!
-        URLProtocolMock.testURLs = [url: data]
-
-        // now set up a configuration to use our mock
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolMock.self]
-
-        // and create the URLSession from that
-        let session = URLSession(configuration: config)
-        
+        let session = MockSessionFactory.make(url: url,
+                                              data: data,
+                                              statusCode: 200)
         let searchService = PokemonSearchService(session: session)
 
         searchService.search(identifier: pokemonIdentifier)
@@ -58,16 +54,10 @@ class NetworkKitTests: XCTestCase {
         let pokemonIdentifier = 900
         let endpoint = PokemonSearchEndpoint.search(identifier: pokemonIdentifier)
         let url = endpoint.makeURL()
-        
-        URLProtocolMock.testURLs = [url: Data("".utf8)]
+        let session = MockSessionFactory.make(url: url,
+                                              data: Data("".utf8),
+                                              statusCode: 401)
 
-        // now set up a configuration to use our mock
-        let config = URLSessionConfiguration.ephemeral
-        config.protocolClasses = [URLProtocolMock.self]
-
-        // and create the URLSession from that
-        let session = URLSession(configuration: config)
-        
         let searchService = PokemonSearchService(session: session)
 
         searchService.search(identifier: pokemonIdentifier)
