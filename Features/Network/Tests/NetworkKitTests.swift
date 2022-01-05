@@ -8,7 +8,7 @@
 
 import XCTest
 import Combine
-import NetworkKit
+@testable import NetworkKit
 
 // swiftlint:disable all
 
@@ -18,16 +18,11 @@ class NetworkKitTests: XCTestCase {
     func testEndpointReturnsData() {
         let expectation = self.expectation(description: "No results in response data")
         let pokemonIdentifier = 1
-        
-        // Define the URL and mock data in a dictionary property of the protocol mock
-        let endpoint = PokemonSearchEndpoint.search(identifier: pokemonIdentifier)
-        let url = endpoint.makeURL()
         let data = try! MockData.loadResponse()!
-        let session = MockSessionFactory.make(url: url,
-                                              data: data,
-                                              statusCode: 200)
-        let searchService = PokemonSearchService(session: session)
-
+        let searchService = buildSearchService(identifier: pokemonIdentifier,
+                                               data: data,
+                                               statusCode: 200)
+        
         searchService.search(identifier: pokemonIdentifier)
             .sink(receiveCompletion: { completion in
                 switch completion {
@@ -52,20 +47,16 @@ class NetworkKitTests: XCTestCase {
     func testEndpointReturns401Error() {
         let expectation = self.expectation(description: "No results in response data")
         let pokemonIdentifier = 900
-        let endpoint = PokemonSearchEndpoint.search(identifier: pokemonIdentifier)
-        let url = endpoint.makeURL()
-        let session = MockSessionFactory.make(url: url,
-                                              data: Data("".utf8),
-                                              statusCode: 401)
-
-        let searchService = PokemonSearchService(session: session)
-
+        let searchService = buildSearchService(identifier: pokemonIdentifier,
+                                               data: Data("".utf8),
+                                                          statusCode: 401)
+        
         searchService.search(identifier: pokemonIdentifier)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .failure(let error):
                     if let httpError = error as? HTTPError {
-                        if httpError == HTTPError.invalidResponse {
+                        if httpError == HTTPError.notFoundResponse {
                             expectation.fulfill()
                         } else {
                             XCTFail("Should return HTTPError.invalidResponse")
@@ -81,5 +72,53 @@ class NetworkKitTests: XCTestCase {
             .store(in: &cancellables)
         
         waitForExpectations(timeout: 6, handler: nil)
+    }
+    
+    func testEndpointReturnsDataAsync() async throws {
+        let pokemonIdentifier = 1
+        let data = try! MockData.loadResponse()!
+        let searchService = buildSearchService(identifier: pokemonIdentifier,
+                                               data: data,
+                                               statusCode: 200)
+        
+        do {
+            guard let responseData = try await searchService.search(identifier: pokemonIdentifier) else {
+                XCTFail()
+                return
+            }
+
+            XCTAssertEqual(data.count, responseData.count, "Data length in the response should be equal to the mock.")
+            XCTAssertNotNil(responseData)
+        } catch {
+            XCTFail()
+        }
+    }
+    
+    func testEndpointReturnsErrorAsync() async throws {
+        let pokemonIdentifier = 1
+        let searchService = buildSearchService(identifier: pokemonIdentifier,
+                                               data: Data("".utf8),
+                                               statusCode: 401)
+        
+        do {
+            let responseData = try await searchService.search(identifier: pokemonIdentifier)
+            
+            XCTAssertNil(responseData)
+        } catch (let error) {
+            print("Error returned is: \(error.localizedDescription)")
+            XCTAssertEqual(error.localizedDescription, Constants.Translations.Error.notFound, "The error message returned should be the same as in the translation constants for Pokemon not found 401.")
+        }
+    }
+    
+    func buildSearchService(identifier: Int,
+                            data: Data,
+                            statusCode: Int) -> PokemonSearchService {
+        let endpoint = PokemonSearchEndpoint.search(identifier: identifier)
+        let url = endpoint.makeURL()
+        let session = MockSessionFactory.make(url: url,
+                                              data: data,
+                                              statusCode: statusCode)
+        
+        return PokemonSearchService(session: session)
     }
 }

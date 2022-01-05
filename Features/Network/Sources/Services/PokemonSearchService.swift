@@ -61,7 +61,7 @@ public class PokemonSearchService: SearchService {
     }
     
     public func performRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error> {
-        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+        return session.dataTaskPublisher(for: urlRequest)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
                     throw HTTPError.invalidResponse(-1000)
