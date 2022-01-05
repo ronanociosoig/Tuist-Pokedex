@@ -44,7 +44,7 @@ func makeBackpackModule() -> Module {
            path: "Backpack",
            frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
            exampleDependencies: [.target(name: "Detail")],
-           frameworkResources: ["Sources/**/*.xib", "Sources/**/*.storyboard"],
+           frameworkResources: ["Resources/**", "Sources/**/*.xib", "Sources/**/*.storyboard"],
            exampleResources: ["Resources/**", "Sources/**/*.storyboard"],
                   testResources: [])
 }
