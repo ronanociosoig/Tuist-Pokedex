@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Common
 
 class Server_401_Error_Test: XCTestCase {
 
@@ -24,6 +25,6 @@ class Server_401_Error_Test: XCTestCase {
     func testSearchPokemon() {
         let app = XCUIApplication()
         app.buttons["Ball"].tap()
-        app.alerts["Error: 401"].buttons["OK"].tap()
+        app.alerts[Constants.Translations.Error.notFound].buttons["OK"].tap()
     }
 }

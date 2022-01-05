@@ -20,7 +20,7 @@ public struct Configuration {
         return arguments.contains("NetworkTesting")
     }
     
-    public static var authenticationErrorTesting: Bool {
+    public static var searchErrorTesting: Bool {
         return CommandLine.arguments.contains("Error_401")
     }
     

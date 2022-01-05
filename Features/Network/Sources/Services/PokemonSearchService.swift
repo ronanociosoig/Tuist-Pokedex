@@ -24,6 +24,7 @@ public struct HttpStatusCode {
     
     public struct ClientError {
         static let range = 400..<500
+        static let notFoundError = 401
     }
     
     public struct ServerError {
@@ -33,9 +34,9 @@ public struct HttpStatusCode {
 
 public protocol SearchService: AnyObject {
     func search(identifier: Int) -> AnyPublisher<Data, Error>
-    func search(identifier: Int) async throws -> (Data?, Error?)
+    func search(identifier: Int) async throws -> Data?
     func performRequest(urlRequest: URLRequest) -> AnyPublisher<Data, Error>
-    func performRequest(urlRequest: URLRequest) async throws -> (Data?, Error?)
+    func performRequest(urlRequest: URLRequest) async throws -> Data?
 }
 
 public class PokemonSearchService: SearchService {
@@ -46,8 +47,8 @@ public class PokemonSearchService: SearchService {
     }
     
     public func search(identifier: Int) -> AnyPublisher<Data, Error> {
-        if Configuration.authenticationErrorTesting {
-            return Fail(error: HTTPError.invalidResponse)
+        if Configuration.searchErrorTesting {
+            return Fail(error: HTTPError.notFoundResponse)
                 .eraseToAnyPublisher()
         } else if Configuration.uiTesting {
             return Just(loadMockData())
@@ -63,35 +64,43 @@ public class PokemonSearchService: SearchService {
         return URLSession.shared.dataTaskPublisher(for: urlRequest)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    throw HTTPError.invalidResponse
+                    throw HTTPError.invalidResponse(-1000)
                 }
                 guard (HttpStatusCode.Success.range).contains(httpResponse.statusCode) else {
-                    throw HTTPError.invalidResponse
+                    if httpResponse.statusCode == HttpStatusCode.ClientError.notFoundError {
+                        throw HTTPError.notFoundResponse
+                    } else {
+                        throw HTTPError.invalidResponse(httpResponse.statusCode)
+                    }
                 }
                 return data
             }
             .eraseToAnyPublisher()
     }
     
-    public func search(identifier: Int) async throws -> (Data?, Error?) {
+    public func search(identifier: Int) async throws -> Data? {
         let endpoint = PokemonSearchEndpoint.search(identifier: identifier)
         return try await performRequest(urlRequest: endpoint.makeURLRequest())
     }
     
-    public func performRequest(urlRequest: URLRequest) async throws -> (Data?, Error?) {
-        let response = try await session.data(for: urlRequest, delegate: nil)
+    public func performRequest(urlRequest: URLRequest) async throws -> Data? {
+        let (data, response) = try await session.data(for: urlRequest, delegate: nil)
         
-        guard let httpResponse = response.1 as? HTTPURLResponse else {
-            throw HTTPError.invalidResponse
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw HTTPError.invalidResponse(-1000)
         }
         
         let statusCode = httpResponse.statusCode
         
         guard (HttpStatusCode.Success.range).contains(statusCode) else {
-            throw HTTPError.invalidResponse
+            if statusCode == HttpStatusCode.ClientError.notFoundError {
+                throw HTTPError.notFoundResponse
+            } else {
+                throw HTTPError.invalidResponse(statusCode)
+            }
         }
 
-        return (response.0, nil)
+        return data
     }
     
     private func loadMockData() -> Data {
@@ -103,14 +112,18 @@ public class PokemonSearchService: SearchService {
 
 public enum HTTPError: Equatable {
     case statusCode(Int)
-    case invalidResponse
+    case invalidResponse(Int)
+    case notFoundResponse
 }
 
 extension HTTPError: LocalizedError {
     public var errorDescription: String? {
         switch self {
-        case .invalidResponse:
-            return NSLocalizedString("Error: 401", comment: "401")
+        case .invalidResponse(let int):
+            let statusCode = String(int)
+            return NSLocalizedString("Error: \(statusCode)", comment: statusCode)
+        case .notFoundResponse:
+            return NSLocalizedString(Constants.Translations.Error.notFound, comment: "401")
         case .statusCode(let int):
             return String(int)
         }

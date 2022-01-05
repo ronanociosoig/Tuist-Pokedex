@@ -17,8 +17,14 @@ public protocol DataSearchProviding {
 }
 
 extension DataProvider: DataSearchProviding {
-    public func search(identifier: Int, networkService: SearchService, queue: DispatchQueue = DispatchQueue.main) {
+    public func search(identifier: Int,
+                       networkService: SearchService,
+                       queue: DispatchQueue = DispatchQueue.main) {
         appData.pokemon = nil
+        
+        if Configuration.asyncTesting {
+            print("Run the async code instead")
+        }
         
         searchCancellable = networkService.search(identifier: identifier)
             .receive(on: queue)
