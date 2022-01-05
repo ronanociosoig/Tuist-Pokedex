@@ -21,6 +21,15 @@ public class PokemonSearchService: SearchService {
     }
     
     public func search(identifier: Int) -> AnyPublisher<Data, Error> {
+        if Configuration.authenticationErrorTesting {
+            return Fail(error: HTTPError.invalidResponse)
+                .eraseToAnyPublisher()
+        } else if Configuration.uiTesting {
+            return Just(loadMockData())
+                        .setFailureType(to: Error.self)
+                        .eraseToAnyPublisher()
+        }
+        
         let endpoint = PokemonSearchEndpoint.search(identifier: identifier)
         return performRequest(urlRequest: endpoint.makeURLRequest())
     }
@@ -37,6 +46,12 @@ public class PokemonSearchService: SearchService {
                 return data
             }
             .eraseToAnyPublisher()
+    }
+    
+    private func loadMockData() -> Data {
+        // swiftlint:disable force_try force_unwrapping
+        return try! MockData.loadResponse()!
+        // swiftlint:enable force_try force_unwrapping
     }
 }
 
