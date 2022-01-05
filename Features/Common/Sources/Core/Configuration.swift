@@ -23,4 +23,9 @@ public struct Configuration {
     public static var authenticationErrorTesting: Bool {
         return CommandLine.arguments.contains("Error_401")
     }
+    
+    public static var asyncTesting: Bool {
+        let arguments = ProcessInfo.processInfo.arguments
+        return arguments.contains("AsyncTesting")
+    }
 }
