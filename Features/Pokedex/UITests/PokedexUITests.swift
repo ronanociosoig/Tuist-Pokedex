@@ -28,7 +28,10 @@ class PokedexUITests: XCTestCase {
         app.buttons["Backpack"].tap()
         app.collectionViews.cells.otherElements.containing(.staticText, identifier: "Charmeleon").element.tap()
         app.navigationBars["Charmeleon"].buttons["Backpack"].tap()
-        app.navigationBars["Backpack"].buttons["Close"].tap()
+        
+        let closeButton = app.navigationBars["Backpack"].buttons["Close"]
+        XCTAssertTrue(closeButton.waitForExistence(timeout: 5))
+        closeButton.tap()
     }
 
 }
