@@ -60,6 +60,7 @@ public struct Constants {
             public static let noResultsFound = "No results were found for your search."
             public static let statusCode404 = "404"
             public static let notFound = "Error 401 Pokemon not found"
+            public static let asyncError = "Async Search failed"
         }
     }
     
