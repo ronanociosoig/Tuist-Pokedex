@@ -15,13 +15,12 @@
 [![Tuist badge](https://img.shields.io/badge/Powered%20by-Tuist-blue)](https://tuist.io) 
 
 
-This simple iOS app is a Swift code example to demonstrate a micro-feature approach to modularisation based on Tuist, that fetches data from an [API](https://pokeapi.co), parses the response, displays some of the data, stores it locally, and can retrieve it. The initial aim was to keep this as simple as possible but follow best practices and standard design patterns. 
+This simple 4-screen iOS app is a Swift code example to demonstrate a micro-feature approach to modularisation based on Tuist, that fetches data from an [API](https://pokeapi.co), parses the response, displays some of the data, stores it locally, and can retrieve it. The networking module has implementations for both Combine and Async/Await. The initial aim was to keep this as simple as possible but follow best practices and standard design patterns. 
 
-It consists of 4 scenes: <br>
-	- Home Scene <br>
-	- Catch the Pokemon Scene <br>
-	- Backpack Scene<br>
-	- Details Scene<br>
+	- Home Scene
+	- Catch the Pokemon Scene 
+	- Backpack Scene
+	- Details Scene
 
 The Home scene has 2 buttons, the first opens the Catch scene, the latter opens the backpack scene. 
 
@@ -33,14 +32,31 @@ Tapping on the lower button opens the Backpack scene, which displays all the cau
 
 ## Tuist
 
-Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) version 1.52. It is not compatible with Tuist 2.x. Generate the project and workspace by running [tuist generate](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
+Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) version 1.52. It is not compatible with Tuist 2.x. Generate the project and workspace by running [`tuist generate`](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
 
 ## Modular Approach
 										     
-The project follows the micro-feature modular architectual pattern promoted by the Tuist team ([see here](https://docs.tuist.io/building-at-scale/microfeatures))							     
+The project implements a simplified version of the micro-feature modular architectual pattern suggested by the Tuist team ([see here](https://docs.tuist.io/building-at-scale/microfeatures))							     
+Each feature module has 3 targets: The framework target, a unit test target and an example app target.
+<p align="center">
+    <img src="ModuleTargets.drawio.png" width="331” max-width="50%" alt="Feature Module Targets" />
+</p>
+
+The application target also has a unit test target and a UI testing target.
+
+<p align="center">
+    <img src="AppTargets.drawio.png" width="331” max-width="50%" alt="Application Targets" />
+</p>
+
 Each scene is definded as a separate feature module (Home, Catch, Backpack and Detail), along with additional modules for Common, Network, Haneke image library, and the main application. The project can focus on any one, or a combination of these modules, the testing target, or the example application that validates each module. 
 
 Run `tuist edit` and view the Project.swift manifest to see the structure and how dependencies are defined and linked.
+
+The dependency graph shows the example apps, the feature modules and the common shared module, along with the network and Haneke image library, as well as JGProgressHUD, which is loaded as an SPM.
+ 
+<p align="center">
+    <img src="graph.png" width="800” max-width="100%" alt="Dependency Graph" />
+</p>
 
 ## Architecture 
 
@@ -64,20 +80,10 @@ The coordinator is in charge of what is displayed on the screen. It contains the
 
 It also receives call backs from the data provider when a request has completed its job, or an error has occurred. This in turn notifies the current scene to update or display an alert. 
 
-Moya is used in the networking layer to help in 3 ways: <br>
-- Make requests type safe by defining them as enumerations. <br>
-- Help with debugging networking calls using the logging plugin. <br>
-- Help with testing for both integration and UI tests by stubbing responses, giving HTTP status codes and mock data.
  
-## Automated Testing
-The project has unit, integration and UI tests.
+## Manual & Automated Testing
+The project has unit and UI tests. The unit tests are both at the feature level in some cases as well at the application level.
 
-![Project build schemes](PokedexTuistSchemes.png)
+Run `tuist test` to execute all the tests, or `tuist test <feature_name>` for running the tests on specific modules.
 
-The project has 2 custom schemes that separate out the different types of testing. 
-In the main scheme, the standard unit and UI XCTests are enabled. 
-
-The network testing scheme takes advantge of the [Moya](https://github.com/Moya/Moya) plugin to enable network logging. 
-
-The UI testing scheme employs the stubbing feature of [Moya](https://github.com/Moya/Moya) to return mock data. The data returned in the mmocks for the UI tests is controlled by the launch argument passed into the test. In this way Moya can return either a standard HTTP 200 response code, or a custom code such as 401. This could be easily extended with custom endpoint closures for all the error codes that needs to be validated. 
-
+The project also has 2 custom schemes to help with manual validation: "UITesting" and "AsyncNetworkTesting". Each of these have the launch argument added. 
