@@ -32,6 +32,5 @@ class AppController: AppControlling {
         coordinator?.dataProvider = dataProvider
         coordinator?.start()
 
-        
     }
 }

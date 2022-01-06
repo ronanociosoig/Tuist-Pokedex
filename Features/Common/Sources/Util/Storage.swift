@@ -1,6 +1,6 @@
 //
 //  Storage.swift
-//  Pokedex
+//  Common
 //
 //  Created by Ronan on 10/05/2019.
 //  Copyright © 2019 Sonomos. All rights reserved.

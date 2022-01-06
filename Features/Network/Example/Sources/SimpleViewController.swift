@@ -22,7 +22,7 @@ class SimpleViewController: UIViewController {
     let buttonHeight: CGFloat = 44.0
     let labelHeight: CGFloat = 25.0
     let spacing: CGFloat = 30.0
-    let topMargin:CGFloat = 120
+    let topMargin: CGFloat = 120
     
     let networkService: SearchService
     

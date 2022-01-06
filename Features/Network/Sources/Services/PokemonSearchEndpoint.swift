@@ -1,24 +1,24 @@
 //
 //  PokemonSearchEndpoint.swift
-//  Pokedex
+//  NetworkKit
 //
 //  Created by Ronan on 09/05/2019.
 //  Copyright © 2019 Sonomos. All rights reserved.
 //
 
 import Foundation
-import Moya
 
 public enum PokemonSearchEndpoint {
     case search(identifier: Int)
 }
 
-extension PokemonSearchEndpoint: TargetType {
-    // swiftlint:disable force_unwrapping
+extension PokemonSearchEndpoint {
+    
     public var baseURL: URL {
+        // swiftlint:disable force_unwrapping
         return URL(string: Constants.Network.baseUrlPath)!
+        // swiftlint:enable force_unwrapping
     }
-    // swiftlint:enable force_unwrapping
     
     public var path: String {
         switch self {
@@ -27,8 +27,8 @@ extension PokemonSearchEndpoint: TargetType {
         }
     }
     
-    public var method: Moya.Method {
-        return .get
+    public var method: String {
+        return "GET"
     }
     
     public var sampleData: Data {
@@ -36,14 +36,7 @@ extension PokemonSearchEndpoint: TargetType {
         return try! MockData.loadResponse()!
         // swiftlint:enable force_try force_unwrapping
     }
-    
-    public var task: Task {
-        switch self {
-        case .search:
-            return .requestPlain
-        }
-    }
-    
+
     public var headers: [String: String]? {
         return nil
     }

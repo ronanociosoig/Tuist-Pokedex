@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import Common
 
 class Server_401_Error_Test: XCTestCase {
 
@@ -15,7 +16,7 @@ class Server_401_Error_Test: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
-        app.launchArguments += ["Error_401"]
+        app.launchArguments += ["UITesting", "Error_401"]
         app.launch()
         
         print(XCUIApplication().debugDescription)
@@ -24,6 +25,6 @@ class Server_401_Error_Test: XCTestCase {
     func testSearchPokemon() {
         let app = XCUIApplication()
         app.buttons["Ball"].tap()
-        app.alerts["Error: 401"].buttons["OK"].tap()
+        app.alerts[Constants.Translations.Error.notFound].buttons["OK"].tap()
     }
 }

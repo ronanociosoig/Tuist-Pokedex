@@ -1,26 +1,26 @@
 //
-//  PokedexUITests.swift
+//  PokedexAsyncSearchUITests.swift
 //  PokedexUITests
 //
-//  Created by Ronan on 09/05/2019.
-//  Copyright © 2019 Sonomos. All rights reserved.
+//  Created by ronan.ociosoig on 05/01/2022.
+//  Copyright © 2022 Sonomos.com. All rights reserved.
 //
 
 import XCTest
 
-class PokedexUITests: XCTestCase {
+class PokedexAsyncSearchUITests: XCTestCase {
 
     let app = XCUIApplication()
     
-    override func setUp() {
+    override func setUpWithError() throws {
         super.setUp()
         continueAfterFailure = false
-        app.launchArguments += ["UITesting"]
+        app.launchArguments += ["UITesting", "AsyncTesting"]
         app.launch()
         
         print(XCUIApplication().debugDescription)
     }
-    
+
     func testSearchPokemon() {
         app.buttons["Ball"].tap()
         app.alerts["Do you want to leave it or catch it?"].buttons["Catch it!"].tap()
@@ -33,5 +33,4 @@ class PokedexUITests: XCTestCase {
         XCTAssertTrue(closeButton.waitForExistence(timeout: 1))
         closeButton.tap()
     }
-
 }

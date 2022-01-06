@@ -1,6 +1,6 @@
 //
 //  DataProvider.swift
-//  PokedexCommon
+//  Common
 //
 //  Created by Ronan on 09/05/2019.
 //  Copyright © 2019 Sonomos. All rights reserved.
@@ -8,12 +8,14 @@
 
 import Foundation
 import os.log
+import Combine
 
 public class DataProvider: DataProviding {
     public let appData = AppData(storage: FileStorage())
     public var notifier: Notifier?
+    public var searchCancellable: AnyCancellable?
 
-    public init(){
+    public init() {
         
     }
     

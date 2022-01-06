@@ -1,6 +1,6 @@
 //
 //  Constants.swift
-//  PokedexCommon
+//  Common
 //
 //  Created by Ronan on 09/05/2019.
 //  Copyright © 2019 Sonomos. All rights reserved.
@@ -59,6 +59,8 @@ public struct Constants {
             public static let noDataError = "Error: No data received."
             public static let noResultsFound = "No results were found for your search."
             public static let statusCode404 = "404"
+            public static let notFound = "Error 401 Pokemon not found"
+            public static let asyncError = "Async Search failed"
         }
     }
     

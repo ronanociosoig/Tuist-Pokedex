@@ -7,65 +7,85 @@ import ProjectDescriptionHelpers
 let project = Project.app(name: "Pokedex",
                           platform: .iOS,
                           packages: [
-                            .package(url: "https://github.com/Moya/Moya.git", .exact("14.0.0")),
-                            .package(url: "https://github.com/antitypical/Result.git", from: "5.0.0"),
                             .package(url: "https://github.com/JonasGessner/JGProgressHUD", .upToNextMajor(from: "2.0.0"))
                           ],
                           targetDependancies: [
                             .package(product: "JGProgressHUD")],
-                          moduleTargets: [Module(name: "Haneke",
-                                                             path: "Haneke",
-                                                             frameworkDependancies: [],
-                                                             exampleDependencies: [],
-                                                             frameworkResources: [],
-                                                             exampleResources: ["Resources/**"]),
-                                              Module(name: "HomeUI",
-                                                             path: "Home",
-                                                             frameworkDependancies: [.target(name: "Common")],
-                                                             exampleDependencies: [.package(product: "JGProgressHUD")],
-                                                             frameworkResources: ["Sources/**/*.storyboard",
-                                                                         "Resources/**"],
-                                                             exampleResources: ["Resources/**"]),
-                                              Module(name: "BackpackUI",
-                                                             path: "Backpack",
-                                                             frameworkDependancies: [.target(name: "Common"),
-                                                                                     .target(name: "Haneke")],
-                                                             exampleDependencies: [.target(name: "Detail")],
-                                                             frameworkResources: ["Sources/**/*.xib",
-                                                                         "Sources/**/*.storyboard"],
-                                                             exampleResources: ["Resources/**",
-                                                                                "Sources/**/*.storyboard"]),
-                                              Module(name: "Detail",
-                                                             path: "Detail",
-                                                             frameworkDependancies: [.target(name: "Common"),
-                                                                                     .target(name: "Haneke")],
-                                                             exampleDependencies: [],
-                                                             frameworkResources: ["Sources/**/*.storyboard"],
-                                                             exampleResources: ["Resources/**"]),
-                                              Module(name: "CatchUI",
-                                                             path: "Catch",
-                                                             frameworkDependancies: [.target(name: "Common"),
-                                                                                     .target(name: "Haneke")],
-                                                             exampleDependencies: [.package(product: "JGProgressHUD"),
-                                                                                   .target(name: "NetworkKit")],
-                                                             frameworkResources: ["Resources/**",
-                                                                                  "Sources/**/*.storyboard"],
-                                                             exampleResources: ["Resources/**",
-                                                                                "Sources/**/*.storyboard"]),
-                                              Module(name: "Common",
-                                                             path: "Common",
-                                                             frameworkDependancies: [],
-                                                             exampleDependencies: [],
-                                                             frameworkResources: ["Sources/**/*.xib"],
-                                                             exampleResources: ["Resources/**"],
-                                                             targets: [.framework, .unitTests]),
-                                              Module(name: "NetworkKit",
-                                                             path: "Network",
-                                                             frameworkDependancies: [
-                                                                .package(product: "Moya"),
-                                                                .package(product: "Result")
-                                                             ],
-                                                             exampleDependencies: [.target(name: "Common")],
-                                                             frameworkResources: ["Resources/**"],
-                                                             exampleResources: ["Resources/**"])
-                          ])
+                          moduleTargets: [makeHanekeModule(),
+                                          makeHomeModule(),
+                                          makeBackpackModule(),
+                                          makeDetailModule(),
+                                          makeCatchModule(),
+                                          makeCommonModule(),
+                                          makeNetworkModule()
+                                         ])
+func makeHanekeModule() -> Module {
+    return Module(name: "Haneke",
+                  path: "Haneke",
+                  frameworkDependancies: [],
+                  exampleDependencies: [],
+                  frameworkResources: [],
+                  exampleResources: ["Resources/**"],
+    testResources: [])
+}
+
+func makeHomeModule() -> Module {
+    return Module(name: "HomeUI",
+                  path: "Home",
+                  frameworkDependancies: [.target(name: "Common")],
+                  exampleDependencies: [.package(product: "JGProgressHUD")],
+                  frameworkResources: ["Sources/**/*.storyboard", "Resources/**"],
+                  exampleResources: ["Resources/**"],
+                  testResources: [])
+}
+
+func makeBackpackModule() -> Module {
+    return Module(name: "BackpackUI",
+           path: "Backpack",
+           frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
+           exampleDependencies: [.target(name: "Detail")],
+           frameworkResources: ["Resources/**", "Sources/**/*.xib", "Sources/**/*.storyboard"],
+           exampleResources: ["Resources/**", "Sources/**/*.storyboard"],
+                  testResources: [])
+}
+
+func makeDetailModule() -> Module {
+    return Module(name: "Detail",
+                  path: "Detail",
+                  frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
+                  exampleDependencies: [],
+                  frameworkResources: ["Sources/**/*.storyboard"],
+                  exampleResources: ["Resources/**"],
+                  testResources: [])
+}
+
+func makeCatchModule() -> Module {
+    Module(name: "CatchUI",
+           path: "Catch",
+           frameworkDependancies: [.target(name: "Common"), .target(name: "Haneke")],
+           exampleDependencies: [.package(product: "JGProgressHUD"), .target(name: "NetworkKit")],
+           frameworkResources: ["Resources/**", "Sources/**/*.storyboard"],
+           exampleResources: ["Resources/**", "Sources/**/*.storyboard"],
+           testResources: [])
+}
+
+func makeCommonModule() -> Module {
+    return Module(name: "Common",
+                  path: "Common",
+                  frameworkDependancies: [],
+                  exampleDependencies: [],
+                  frameworkResources: ["Sources/**/*.xib"],
+                  exampleResources: ["Resources/**"],
+                  testResources: [],
+                  targets: [.framework, .unitTests])
+}
+
+func makeNetworkModule() -> Module {
+    return Module(name: "NetworkKit",
+                  path: "Network",
+                  frameworkDependancies: [],
+                  exampleDependencies: [.target(name: "Common")],
+                  frameworkResources: ["Resources/**"],
+                  exampleResources: ["Resources/**"],
+                  testResources: ["**/*.json"])
+}
