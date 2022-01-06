@@ -30,7 +30,7 @@ class PokedexAsyncSearchUITests: XCTestCase {
         app.navigationBars["Charmeleon"].buttons["Backpack"].tap()
         
         let closeButton = app.navigationBars["Backpack"].buttons["Close"]
-        XCTAssertTrue(closeButton.waitForExistence(timeout: 5))
+        XCTAssertTrue(closeButton.waitForExistence(timeout: 1))
         closeButton.tap()
     }
 }

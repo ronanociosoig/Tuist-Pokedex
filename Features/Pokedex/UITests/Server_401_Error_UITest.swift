@@ -16,7 +16,7 @@ class Server_401_Error_Test: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
-        app.launchArguments += ["Error_401"]
+        app.launchArguments += ["UITesting", "Error_401"]
         app.launch()
         
         print(XCUIApplication().debugDescription)

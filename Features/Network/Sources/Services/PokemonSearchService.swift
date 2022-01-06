@@ -24,6 +24,7 @@ public struct HttpStatusCode {
     
     public struct ClientError {
         static let range = 400..<500
+        static let badRequest = 400
         static let notFoundError = 401
     }
     
@@ -64,7 +65,8 @@ public class PokemonSearchService: SearchService {
         return session.dataTaskPublisher(for: urlRequest)
             .tryMap { data, response -> Data in
                 guard let httpResponse = response as? HTTPURLResponse else {
-                    throw HTTPError.invalidResponse(-1000)
+                    throw HTTPError
+                        .invalidResponse(HttpStatusCode.ClientError.badRequest)
                 }
                 guard (HttpStatusCode.Success.range).contains(httpResponse.statusCode) else {
                     if httpResponse.statusCode == HttpStatusCode.ClientError.notFoundError {
@@ -93,7 +95,7 @@ public class PokemonSearchService: SearchService {
         let (data, response) = try await session.data(for: urlRequest, delegate: nil)
         
         guard let httpResponse = response as? HTTPURLResponse else {
-            throw HTTPError.invalidResponse(-1000)
+            throw HTTPError.invalidResponse(HttpStatusCode.ClientError.badRequest)
         }
         
         let statusCode = httpResponse.statusCode

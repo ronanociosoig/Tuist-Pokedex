@@ -26,7 +26,6 @@ extension DataProvider: DataSearchProviding {
             Task {
                 do {
                     guard let data = try await networkService.search(identifier: identifier) else {
-                        print("Search Failed")
                         show(errorMessage: Constants.Translations.Error.asyncError, on: queue)
                         return
                     }
