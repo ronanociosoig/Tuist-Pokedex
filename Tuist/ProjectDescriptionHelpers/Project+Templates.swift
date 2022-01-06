@@ -191,7 +191,7 @@ extension Project {
         let codeCoverageTargets: [TargetReference] = [mainTargetReference]
         let buildAction = BuildAction(targets: [mainTargetReference])
         let executable = mainTargetReference
-        let networkTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "Network", isEnabled: true)])
+        let asyncTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "AsyncTesting", isEnabled: true)])
         let uiTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "UITesting", isEnabled: true)])
         
         let testAction = TestAction(targets: [TestableTarget(stringLiteral: "\(targetName)UITests")],
@@ -199,13 +199,13 @@ extension Project {
                                     coverage: coverage,
                                     codeCoverageTargets: codeCoverageTargets)
 
-        let networkTestingScheme = Scheme(
-            name: "\(targetName)NetworkTesting",
+        let asyncTestingScheme = Scheme(
+            name: "\(targetName)AsyncNetworkTesting",
             shared: false,
             buildAction: buildAction,
             runAction: RunAction(configurationName: debugConfiguration,
                                  executable: executable,
-                                 arguments: networkTestingLaunchArguments)
+                                 arguments: asyncTestingLaunchArguments)
         )
         
         let uiTestingScheme = Scheme(
@@ -218,6 +218,6 @@ extension Project {
                                  arguments: uiTestingLaunchArguments)
         )
         
-        return [networkTestingScheme, uiTestingScheme]
+        return [asyncTestingScheme, uiTestingScheme]
     }
 }
