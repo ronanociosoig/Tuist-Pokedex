@@ -79,6 +79,12 @@ public class PokemonSearchService: SearchService {
     }
     
     public func search(identifier: Int) async throws -> Data? {
+        if Configuration.searchErrorTesting {
+            throw HTTPError.notFoundResponse
+        } else if Configuration.uiTesting {
+            return loadMockData()
+        }
+        
         let endpoint = PokemonSearchEndpoint.search(identifier: identifier)
         return try await performRequest(urlRequest: endpoint.makeURLRequest())
     }
