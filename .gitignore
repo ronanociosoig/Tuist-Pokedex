@@ -39,4 +39,4 @@ Pods/
 ### Tuist derived files ###
 graph.dot
 Derived/
-
+Tuist/Dependencies/

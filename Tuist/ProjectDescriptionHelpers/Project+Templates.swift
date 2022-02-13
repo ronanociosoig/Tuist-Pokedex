@@ -50,13 +50,19 @@ extension Project {
     /// Helper function to create the Project for this ExampleApp
     public static func app(name: String,
                            platform: Platform,
-                           packages: [Package],
+                           externalDependencies: [String],
                            targetDependancies: [TargetDependency],
                            moduleTargets: [Module]) -> Project {
         
         let organizationName = "Sonomos.com"
         var dependencies = moduleTargets.map { TargetDependency.target(name: $0.name) }
         dependencies.append(contentsOf: targetDependancies)
+        
+        let externalTargetDependencies = externalDependencies.map {
+            TargetDependency.external(name: $0)
+        }
+        
+        dependencies.append(contentsOf: externalTargetDependencies)
         
         var targets = makeAppTargets(name: name,
                                      platform: platform,
@@ -68,7 +74,6 @@ extension Project {
         
         return Project(name: name,
                        organizationName: organizationName,
-                       packages: packages,
                        targets: targets,
                        schemes: schemes)
     }
@@ -113,6 +118,8 @@ extension Project {
         }
     
         if module.targets.contains(.framework) {
+            let headers = Headers.headers(public: ["\(frameworkPath)/Sources/**/*.h"])
+            
             targets.append(Target(name: module.name,
                     platform: platform,
                     product: .framework,
@@ -120,9 +127,11 @@ extension Project {
                     infoPlist: .default,
                     sources: ["\(frameworkPath)/Sources/**"],
                     resources: ResourceFileElements(resources: frameworkResourceFilePaths),
-                    headers: Headers(public: ["\(frameworkPath)/Sources/**/*.h"]),
+                                  headers: headers,
                     dependencies: module.frameworkDependancies))
         }
+        
+        // Headers(public: ["\(frameworkPath)/Sources/**/*.h"])
 
         if module.targets.contains(.unitTests) {
             targets.append(Target(name: "\(module.name)Tests",
@@ -139,7 +148,9 @@ extension Project {
     }
 
     /// Helper function to create the application target and the unit test target.
-    public static func makeAppTargets(name: String, platform: Platform, dependencies: [TargetDependency]) -> [Target] {
+    public static func makeAppTargets(name: String,
+                                      platform: Platform,
+                                      dependencies: [TargetDependency]) -> [Target] {
 
         let mainTarget = Target(
             name: name,
@@ -150,8 +161,10 @@ extension Project {
             sources: ["\(featuresPath)/\(name)/Sources/**"],
             resources: ["\(featuresPath)/\(name)/Resources/**"
             ],
-            actions: [
-                TargetAction.post(path: "scripts/swiftlint.sh", arguments: ["$SRCROOT", "$TARGETNAME"], name: "SwiftLint")
+            scripts: [
+                .post(path: "scripts/swiftlint.sh",
+                      arguments: ["$SRCROOT", "$TARGETNAME"],
+                      name: "SwiftLint")
             ],
             dependencies: dependencies
         )
@@ -186,37 +199,56 @@ extension Project {
 
     public static func makeSchemes(targetName: String) -> [Scheme] {
         let mainTargetReference = TargetReference(stringLiteral: targetName)
-        let debugConfiguration = "Debug"
-        let coverage = true
-        let codeCoverageTargets: [TargetReference] = [mainTargetReference]
+        let debugConfiguration = ConfigurationName(stringLiteral: "Debug")
         let buildAction = BuildAction(targets: [mainTargetReference])
         let executable = mainTargetReference
         let asyncTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "AsyncTesting", isEnabled: true)])
         let uiTestingLaunchArguments = Arguments(launchArguments: [LaunchArgument(name: "UITesting", isEnabled: true)])
         
-        let testAction = TestAction(targets: [TestableTarget(stringLiteral: "\(targetName)UITests")],
-                                    configurationName: debugConfiguration,
-                                    coverage: coverage,
-                                    codeCoverageTargets: codeCoverageTargets)
-
+        let target = TestableTarget(stringLiteral: "\(targetName)UITests")
+        let testAction =
+        TestAction.targets([target],
+                           arguments: nil,
+                           configuration: debugConfiguration,
+                           attachDebugger: false,
+                           expandVariableFromTarget: nil,
+                           preActions: [],
+                           postActions: [],
+                           options: TestActionOptions.options(),
+                           diagnosticsOptions: [])
+        
+        let runActionOptions = RunActionOptions.options(language: nil,
+                                                        storeKitConfigurationPath: nil, simulatedLocation: nil)
+        let asyncRunAction = RunAction.runAction(configuration: debugConfiguration,
+                                                 attachDebugger: false,
+                                                 preActions: [],
+                                                 postActions: [],
+                                                 executable: executable,
+                                                 arguments: asyncTestingLaunchArguments,
+                                                 options: runActionOptions,
+                                                 diagnosticsOptions: [])
+        
         let asyncTestingScheme = Scheme(
             name: "\(targetName)AsyncNetworkTesting",
             shared: false,
             buildAction: buildAction,
-            runAction: RunAction(configurationName: debugConfiguration,
-                                 executable: executable,
-                                 arguments: asyncTestingLaunchArguments)
-        )
+            runAction: asyncRunAction)
+        
+        let uiTestRunAction = RunAction.runAction(configuration: debugConfiguration,
+                                                  attachDebugger: false,
+                                                  preActions: [],
+                                                  postActions: [],
+                                                  executable: executable,
+                                                  arguments: uiTestingLaunchArguments,
+                                                  options: runActionOptions,
+                                                  diagnosticsOptions: [])
         
         let uiTestingScheme = Scheme(
             name: "\(targetName)UITesting",
             shared: false,
             buildAction: buildAction,
             testAction: testAction,
-            runAction: RunAction(configurationName: debugConfiguration,
-                                 executable: executable,
-                                 arguments: uiTestingLaunchArguments)
-        )
+            runAction: uiTestRunAction)
         
         return [asyncTestingScheme, uiTestingScheme]
     }
