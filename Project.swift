@@ -5,12 +5,8 @@ import ProjectDescriptionHelpers
 
 // Creates our project using a helper function defined in ProjectDescriptionHelpers
 let project = Project.app(name: "Pokedex",
-                          platform: .iOS,
-                          packages: [
-                            .package(url: "https://github.com/JonasGessner/JGProgressHUD", .upToNextMajor(from: "2.0.0"))
-                          ],
-                          targetDependancies: [
-                            .package(product: "JGProgressHUD")],
+                          platform: .iOS, externalDependencies: ["JGProgressHUD"],
+                          targetDependancies: [],
                           moduleTargets: [makeHanekeModule(),
                                           makeHomeModule(),
                                           makeBackpackModule(),
