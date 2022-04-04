@@ -32,7 +32,7 @@ Tapping on the lower button opens the Backpack scene, which displays all the cau
 
 ## Tuist
 
-Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) version 1.52. It is not compatible with Tuist 2.x. Generate the project and workspace by running [`tuist generate`](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
+Run the code in this repo requires the prior installation of [tuist.io](https://tuist.io) version 2.6.0. It is not compatible with Tuist 3.x. Generate the project and workspace by running [`tuist generate`](https://tuist.io/docs/usage/get-started/), and then `tuist focus Pokedex` to open the project.
 
 ## Modular Approach
 										     
