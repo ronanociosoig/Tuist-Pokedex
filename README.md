@@ -3,6 +3,8 @@
       width=700>
 </p>
 
+This repo is deprecated and [the latest version is here](https://github.com/ronanociosoig-200/Tuist-Pokedex)
+
 <p align="center">
   <a href="#architecture">Architecture</a>
   • <a href="#implementation">Implementation</a>
